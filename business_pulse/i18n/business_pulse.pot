@@ -1,0 +1,2067 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* business_pulse
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-09 17:54+0000\n"
+"PO-Revision-Date: 2026-10-09 17:54+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "%(confirmed)s of %(created)s quotations confirmed"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "%(count)s selected"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "%s customer invoices are overdue"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "%s invoices are more than 90 days overdue"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "%s is not a valid date."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "%s open invoices"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "%s open quotations"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "%s open quotations have expired"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "%s overdue invoices"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "%s quotations expire within %s days"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "%s sent quotations are older than %s days"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "1 customer invoice is overdue"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "1 invoice is more than 90 days overdue"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "1 open invoice"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "1 open quotation"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "1 open quotation has expired"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "1 overdue invoice"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "1 quotation expires within %s days"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "1 sent quotation is older than %s days"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "1–30 days"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "31–60 days"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "61–90 days"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.module.category,description:business_pulse.module_category_business_pulse
+msgid "Access to the Business Pulse executive dashboard."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Active Customers"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid ""
+"Active customers whose first ever confirmed order (in the selected "
+"companies) falls in the period."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Active filters"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "All clear"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Amount"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Apply"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.xml:0
+msgid "As of"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_card.xml:0
+msgid "As of today"
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Attention rules"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Auto"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Average Order Value"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Break down by"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Bucket"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+#: model:ir.actions.client,name:business_pulse.action_business_pulse_overview
+#: model:ir.module.category,name:business_pulse.module_category_business_pulse
+#: model:ir.ui.menu,name:business_pulse.menu_business_pulse_root
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Business Pulse"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model,name:business_pulse.model_business_pulse_dashboard
+msgid "Business Pulse Dashboard Service"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model,name:business_pulse.model_business_pulse_preference
+msgid "Business Pulse User Preference"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Business Pulse could not be loaded. Please refresh the page."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Business Pulse settings"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "CSV export (current filters)"
+msgstr ""
+
+#. module: business_pulse
+#: model:res.groups,comment:business_pulse.group_business_pulse_user
+msgid ""
+"Can open the Business Pulse dashboard. Figures still follow the user's own "
+"access rights: financial sections additionally require an "
+"Invoicing/Accounting role."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_picker.xml:0
+msgid "Cancel"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/components/rankings.xml:0
+msgid "Change"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/trend_chart.xml:0
+msgid "Chart"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid ""
+"Check the breakdown to see which category, product or salesperson drives the"
+" decline."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/widget_frame.xml:0
+msgid "Check your filters"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_picker.xml:0
+msgid "Choose up to"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Clean up expired quotations"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Clear all"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/trend_chart.js:0
+msgid "Click to open records"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid ""
+"Cohort rate: of all quotations created in the period, the share that is now "
+"a confirmed sales order. Changes are shown in percentage points (pp)."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Company"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_picker.xml:0
+msgid "Company default"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Compare"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+#: model:ir.model.fields,field_description:business_pulse.field_business_pulse_preference__comparison
+msgid "Comparison"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Comparison end date"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/trend_chart.xml:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Comparison period"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/rankings.xml:0
+msgid "Comparison period value"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Comparison start"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Comparison start date"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/components/trend_chart.xml:0
+msgid "Comparison value"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model,name:business_pulse.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.ui.menu,name:business_pulse.menu_business_pulse_configuration
+msgid "Configuration"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Confirmed Orders"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Confirmed Sales"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid ""
+"Confirmed Sales divided by Confirmed Orders for the same period and filters."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Confirmed Sales: %s"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Confirmed orders"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Confirmed sales"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Confirmed sales are down %s%% versus the comparison period"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Confirmed sales by %(dimension)s"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Confirmed sales, untaxed"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Conversion Rate"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_card.xml:0
+msgid "Could not be calculated"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_business_pulse_preference__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_business_pulse_preference__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Credit note posted"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.js:0
+msgid "Critical"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Currency"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Custom period"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Custom range"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Customer"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Customers"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Customize"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_picker.xml:0
+msgid "Customize your dashboard"
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Dashboard defaults"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Dashboard filters"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_business_pulse_preference__date_preset
+msgid "Date Preset"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Day"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/utils/format.js:0
+msgid "Decrease"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_picker.xml:0
+#: model:ir.model.fields,field_description:business_pulse.field_res_config_settings__business_pulse_default_comparison
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Default comparison"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Default layout restored."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_picker.xml:0
+#: model:ir.model.fields,field_description:business_pulse.field_res_config_settings__business_pulse_default_preset
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Default period"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Definition"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_business_pulse_preference__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/trend_chart.xml:0
+msgid "Display as"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid ""
+"Distinct customer entities (companies or individuals) with at least one "
+"confirmed order in the period."
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.constraint,message:business_pulse.constraint_business_pulse_preference_user_unique
+msgid "Each user can only have one Business Pulse preference."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "End date"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Every posted customer invoice is paid."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Executive overview"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Expired Quotations"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Expiring Quotations"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_res_config_settings__business_pulse_expiring_days
+msgid "Expiring quotation window (days)"
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Expiring quotations"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Export"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/widget_frame.xml:0
+msgid "Export CSV"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/widget_frame.xml:0
+msgid "Export this section as CSV"
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Exports"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Filters"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Finance access required."
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid ""
+"Flag open quotations whose expiration date falls within this many days."
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Flag sent quotations that have had no decision for this many days."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Follow up before they lapse to protect the pipeline."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Follow up stalled quotations"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Generated"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Group by"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_business_pulse_preference__id
+msgid "ID"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/utils/format.js:0
+msgid "Increase"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.js:0
+msgid "Info"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_preference.py:0
+msgid "Invalid KPI selection."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_preference.py:0
+msgid "Invalid comparison."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_preference.py:0
+msgid "Invalid date preset."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Invalid filter value."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_preference.py:0
+msgid "Invalid preferences."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.js:0
+msgid "Invoice"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Invoice posted"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Invoiced"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Invoiced Revenue"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Invoiced revenue (net of credit notes)"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Invoices"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Invoices and credit notes"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Invoices: %s"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,help:business_pulse.field_business_pulse_preference__kpi_keys
+msgid "JSON list of KPI card keys, in display order."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "KPI Summary"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_picker.xml:0
+msgid "KPI cards"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "KPI summary"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Key indicators"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Key performance indicators"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_business_pulse_preference__kpi_keys
+msgid "Kpi Keys"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.xml:0
+msgid "Largest overdue balances"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__last_30_days
+msgid "Last 30 days"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__last_7_days
+msgid "Last 7 days"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__last_90_days
+msgid "Last 90 days"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_business_pulse_preference__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_business_pulse_preference__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__last_month
+msgid "Last month"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__last_quarter
+msgid "Last quarter"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__last_week
+msgid "Last week"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__last_year
+msgid "Last year"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Latest documents you can access"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/trend_chart.xml:0
+msgid "Legend"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/widget_frame.xml:0
+msgid "Loading"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Loading Business Pulse…"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Long-overdue balances are the hardest to collect."
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_res_config_settings__business_pulse_export_limit
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Maximum exported rows"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Metric"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Month"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_picker.xml:0
+msgid "My defaults"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/components/rankings.xml:0
+msgid "Name"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Needs attention"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/utils/format.js:0
+msgid "New"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "New Customers"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "New quotation"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "No activity in this period"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/utils/format.js:0
+msgid "No change"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_comparison__none
+msgid "No comparison"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_card.xml:0
+msgid "No comparison data"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "No confirmed sales in this period"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "No decision yet. A quick follow-up often unblocks them."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "No outstanding receivables"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "No recent activity"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "None"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/utils/format.js:0
+msgid "Not available"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/widget_frame.xml:0
+msgid "Not filtered by:"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Not yet due"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Nothing needs your attention right now."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid ""
+"Number of confirmed sales orders whose order date falls in the period. With "
+"a product filter, only orders containing that product are counted."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Open Quotations"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Open confirmed sales"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.js:0
+msgid "Order"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Order confirmed"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/components/rankings.xml:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Orders"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Orders by customer"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Others"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/rankings.xml:0
+msgid "Others ("
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.xml:0
+msgid "Outstanding"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Outstanding Receivables"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Outstanding receivables whose due date is before today."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Over 90 days"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Over 90 days overdue"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.xml:0
+msgid "Overdue"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Overdue Receivables"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.ui.menu,name:business_pulse.menu_business_pulse_overview
+msgid "Overview"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.js:0
+msgid "Payment"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Payment received"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Performance trend"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/components/trend_chart.xml:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Period"
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid ""
+"Period selected when a user opens the dashboard without a personal default."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Period start"
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Period the KPIs are compared against by default."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_comparison__previous_period
+msgid "Previous period"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Product"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Product Category"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Products"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/rankings.xml:0
+msgid "Qty"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Quantity"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Quarter"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.js:0
+msgid "Quotation"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Quotations created in period"
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid ""
+"Raise a critical alert when confirmed sales fall by at least this percentage"
+" versus the comparison period. Use 0 to disable."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Rank"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Ranked by confirmed sales"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Ranking"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Receivables"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Receivables Aging"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.xml:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Receivables aging"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Receivables: %s"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Recent activity"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Refresh"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Refresh all sections"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Report"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid ""
+"Residual (unpaid) amount of posted customer invoices and credit notes, as of"
+" today. Unallocated payments are not deducted."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_picker.xml:0
+msgid "Restore defaults"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_card.xml:0
+msgid "Restricted for your role"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/widget_frame.xml:0
+msgid "Restricted information"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Restricted record"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Review expiring quotations"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Review overdue invoices"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Rules-based alerts on live data"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/rankings.xml:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Sales"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Sales Team"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Sales Trend"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Sales breakdown"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Sales by %s"
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Sales decline"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_res_config_settings__business_pulse_sales_drop_threshold
+msgid "Sales decline alert (%)"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Salespeople"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Salesperson"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_comparison__previous_year
+msgid "Same period last year"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_picker.xml:0
+msgid "Save"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Select a period to open."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Select a valid comparison period."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Select both a start and an end date."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Select both comparison dates."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Selected period"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Send reminders to keep cash flowing."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+#: model:ir.actions.act_window,name:business_pulse.action_business_pulse_settings
+#: model:ir.ui.menu,name:business_pulse.menu_business_pulse_settings
+msgid "Settings"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/components/rankings.xml:0
+msgid "Share"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Stalled Quotations"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_res_config_settings__business_pulse_stale_days
+msgid "Stalled quotation age (days)"
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Stalled quotations"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Start collection on these invoices"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Start date"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/trend_chart.xml:0
+msgid "Table"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "The comparison period is too long (maximum 10 years)."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "The comparison start date must be before its end date."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/res_config_settings.py:0
+msgid "The expiring quotation window must be between 1 and 365 days."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "The export failed. Please try again."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/res_config_settings.py:0
+msgid "The export limit must be between 100 and 1,000,000 rows."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/res_config_settings.py:0
+msgid "The sales decline threshold must be between 0 and 100%."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "The selected period is too long (maximum 10 years)."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "The server could not be reached. Check your connection and try again."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/res_config_settings.py:0
+msgid "The stalled quotation age must be between 1 and 3650 days."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "The start date must be before the end date."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "These records could not be opened."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid ""
+"They are still open past their expiration date. Renew or cancel them to keep"
+" the pipeline accurate."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__this_month
+msgid "This month"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "This period is outside the selected range."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__this_quarter
+msgid "This quarter"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "This report cannot be exported."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "This section cannot be exported."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/widget_frame.xml:0
+msgid "This section could not be loaded"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "This section could not be loaded. Please try again."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__this_week
+msgid "This week"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__this_year
+msgid "This year"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/utils/format.js:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__today
+msgid "Today"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Top %s"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Top performers"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Total"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/trend_chart.js:0
+msgid "Total %(total)s. Highest %(granularity)s: %(label)s with %(value)s."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Trend data"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Try a longer period or remove some filters."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/widget_frame.xml:0
+msgid "Try again"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Undefined"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Unit"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Unknown comparison mode."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Unknown date preset."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Unknown drill-down."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "Unknown widget."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "Unpaid customer invoices by due date"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid ""
+"Untaxed amount of posted customer invoices minus posted credit notes, by "
+"invoice date, in company currency. This is billed revenue, not cash "
+"collected."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid ""
+"Untaxed value of all quotations currently in Quotation or Quotation Sent "
+"status, as of today. The date range does not apply."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid ""
+"Untaxed value of confirmed sales order lines (status 'Sales Order') whose "
+"order date falls in the period. Converted to the current company currency at"
+" the latest rate. Cancelled orders are excluded."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/widget_frame.xml:0
+msgid "Updating"
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "Upper limit of rows written to a single CSV export."
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields,field_description:business_pulse.field_business_pulse_preference__user_id
+#: model:res.groups,name:business_pulse.group_business_pulse_user
+msgid "User"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/components/trend_chart.xml:0
+msgid "Value"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.js:0
+msgid "Warning"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Week"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+#: code:addons/business_pulse/static/src/utils/format.js:0
+#: model:ir.model.fields.selection,name:business_pulse.selection__res_config_settings__business_pulse_default_preset__yesterday
+msgid "Yesterday"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "You are not allowed to use Business Pulse."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "You cannot access one of the selected companies."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-python
+#: code:addons/business_pulse/models/business_pulse_dashboard.py:0
+msgid "You do not have access to this information."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/widget_frame.xml:0
+msgid ""
+"Your access rights do not include this section. Ask an administrator if you "
+"need it."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.js:0
+msgid "Your dashboard has been saved."
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_card.js:0
+msgid "absolute change %(value)s"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_picker.xml:0
+msgid "cards and set their order. Selected:"
+msgstr ""
+
+#. module: business_pulse
+#: model_terms:ir.ui.view,arch_db:business_pulse.res_config_settings_view_form
+msgid "days"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.xml:0
+msgid "inv."
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__last_30_days
+msgid "last_30_days"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__last_7_days
+msgid "last_7_days"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__last_90_days
+msgid "last_90_days"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__last_month
+msgid "last_month"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__last_quarter
+msgid "last_quarter"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__last_week
+msgid "last_week"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__last_year
+msgid "last_year"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__comparison__none
+msgid "none"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/insights.xml:0
+msgid "of outstanding"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__comparison__previous_period
+msgid "previous_period"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__comparison__previous_year
+msgid "previous_year"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_card.js:0
+msgid "relative change %(value)s%"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__this_month
+msgid "this_month"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__this_quarter
+msgid "this_quarter"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__this_week
+msgid "this_week"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__this_year
+msgid "this_year"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__today
+msgid "today"
+msgstr ""
+
+#. module: business_pulse
+#. odoo-javascript
+#: code:addons/business_pulse/static/src/components/kpi_card.xml:0
+#: code:addons/business_pulse/static/src/dashboard/business_pulse_dashboard.xml:0
+msgid "vs"
+msgstr ""
+
+#. module: business_pulse
+#: model:ir.model.fields.selection,name:business_pulse.selection__business_pulse_preference__date_preset__yesterday
+msgid "yesterday"
+msgstr ""

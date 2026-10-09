@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_business_pulse_overview" model="ir.actions.client">
+        <field name="name">Business Pulse</field>
+        <field name="tag">business_pulse.dashboard</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_business_pulse_root"
+              name="Business Pulse"
+              web_icon="business_pulse,static/description/icon.png"
+              groups="group_business_pulse_user"
+              sequence="5"/>
+
+    <menuitem id="menu_business_pulse_overview"
+              name="Overview"
+              parent="menu_business_pulse_root"
+              action="action_business_pulse_overview"
+              sequence="10"/>
+
+    <menuitem id="menu_business_pulse_configuration"
+              name="Configuration"
+              parent="menu_business_pulse_root"
+              groups="base.group_system"
+              sequence="100"/>
+
+    <menuitem id="menu_business_pulse_settings"
+              name="Settings"
+              parent="menu_business_pulse_configuration"
+              action="action_business_pulse_settings"
+              groups="base.group_system"
+              sequence="10"/>
+</odoo>

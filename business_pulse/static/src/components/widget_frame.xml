@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="business_pulse.WidgetFrame">
+        <section t-attf-class="o_bp_panel {{ props.className }}"
+                 t-att-aria-labelledby="props.headingId"
+                 t-att-aria-busy="props.widget.loading ? 'true' : 'false'">
+            <header class="o_bp_panel_header">
+                <div class="o_bp_panel_heading">
+                    <h2 class="o_bp_panel_title" t-att-id="props.headingId" t-esc="props.title"/>
+                    <p t-if="props.subtitle" class="o_bp_panel_subtitle" t-esc="props.subtitle"/>
+                </div>
+                <div class="o_bp_panel_actions">
+                    <span t-if="props.widget.loading and props.widget.data" class="o_bp_refreshing" role="status">
+                        <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"/>
+                        <span class="visually-hidden">Updating</span>
+                    </span>
+                    <t t-slot="actions"/>
+                    <button t-if="props.onExport and status === 'ok'" type="button"
+                            class="btn btn-sm o_bp_icon_btn" t-on-click="() => props.onExport()"
+                            title="Export CSV" aria-label="Export this section as CSV">
+                        <i class="fa fa-download" aria-hidden="true"/>
+                    </button>
+                </div>
+            </header>
+            <div t-if="props.ignoredFilters and props.ignoredFilters.length and status === 'ok'" class="o_bp_notice">
+                <i class="fa fa-info-circle" aria-hidden="true"/>
+                Not filtered by: <t t-esc="props.ignoredFilters.join(', ')"/>
+            </div>
+            <div class="o_bp_panel_body" t-att-class="{ 'o_bp_dimmed': props.widget.loading and props.widget.data }">
+                <t t-if="status === 'skeleton'">
+                    <div class="o_bp_skeleton" t-attf-class="o_bp_skeleton_{{ props.skeleton }}" aria-hidden="true">
+                        <t t-if="props.skeleton === 'chart'">
+                            <div class="o_bp_sk_block o_bp_sk_chart"/>
+                        </t>
+                        <t t-else="">
+                            <t t-foreach="[1, 2, 3, 4, 5]" t-as="i" t-key="i">
+                                <div class="o_bp_sk_row">
+                                    <div class="o_bp_sk_line" t-attf-style="width: {{ 90 - i * 9 }}%"/>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+                    <span class="visually-hidden" role="status">Loading <t t-esc="props.title"/></span>
+                </t>
+                <t t-elif="status === 'forbidden'">
+                    <div class="o_bp_state">
+                        <i class="fa fa-lock o_bp_state_icon" aria-hidden="true"/>
+                        <p class="o_bp_state_title">Restricted information</p>
+                        <p class="o_bp_state_text">Your access rights do not include this section. Ask an administrator if you need it.</p>
+                    </div>
+                </t>
+                <t t-elif="status === 'error' or status === 'invalid'">
+                    <div class="o_bp_state" role="alert">
+                        <i class="fa fa-exclamation-circle o_bp_state_icon text-danger" aria-hidden="true"/>
+                        <p class="o_bp_state_title" t-if="status === 'error'">This section could not be loaded</p>
+                        <p class="o_bp_state_title" t-else="">Check your filters</p>
+                        <p class="o_bp_state_text" t-esc="message"/>
+                        <button t-if="props.onRetry" type="button" class="btn btn-sm btn-secondary" t-on-click="() => props.onRetry()">
+                            <i class="fa fa-refresh me-1" aria-hidden="true"/>Try again
+                        </button>
+                    </div>
+                </t>
+                <t t-elif="status === 'empty'">
+                    <div class="o_bp_state">
+                        <i class="fa fa-inbox o_bp_state_icon" aria-hidden="true"/>
+                        <p class="o_bp_state_title" t-esc="props.emptyTitle or 'No data for this period'"/>
+                        <p class="o_bp_state_text" t-if="props.emptyText" t-esc="props.emptyText"/>
+                    </div>
+                </t>
+                <t t-else="">
+                    <t t-slot="default"/>
+                </t>
+            </div>
+        </section>
+    </t>
+</templates>

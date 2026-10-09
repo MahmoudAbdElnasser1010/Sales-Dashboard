@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.business_pulse</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="60"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Business Pulse" string="Business Pulse" name="business_pulse"
+                     logo="/business_pulse/static/description/icon.png">
+                    <block title="Dashboard defaults" id="business_pulse_defaults">
+                        <setting id="business_pulse_default_preset" string="Default period"
+                                 help="Period selected when a user opens the dashboard without a personal default.">
+                            <field name="business_pulse_default_preset" class="w-auto"/>
+                        </setting>
+                        <setting id="business_pulse_default_comparison" string="Default comparison"
+                                 help="Period the KPIs are compared against by default.">
+                            <field name="business_pulse_default_comparison" class="w-auto"/>
+                        </setting>
+                    </block>
+                    <block title="Attention rules" id="business_pulse_alerts">
+                        <setting id="business_pulse_expiring_days" string="Expiring quotations"
+                                 help="Flag open quotations whose expiration date falls within this many days.">
+                            <field name="business_pulse_expiring_days" class="w-auto"/> days
+                        </setting>
+                        <setting id="business_pulse_stale_days" string="Stalled quotations"
+                                 help="Flag sent quotations that have had no decision for this many days.">
+                            <field name="business_pulse_stale_days" class="w-auto"/> days
+                        </setting>
+                        <setting id="business_pulse_sales_drop_threshold" string="Sales decline"
+                                 help="Raise a critical alert when confirmed sales fall by at least this percentage versus the comparison period. Use 0 to disable.">
+                            <field name="business_pulse_sales_drop_threshold" class="w-auto"/> %
+                        </setting>
+                    </block>
+                    <block title="Exports" id="business_pulse_exports">
+                        <setting id="business_pulse_export_limit" string="Maximum exported rows"
+                                 help="Upper limit of rows written to a single CSV export.">
+                            <field name="business_pulse_export_limit" class="w-auto"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_business_pulse_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'business_pulse', 'bin_size': False}</field>
+    </record>
+</odoo>

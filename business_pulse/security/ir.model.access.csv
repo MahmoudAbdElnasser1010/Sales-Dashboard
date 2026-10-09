@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_business_pulse_preference_user,business.pulse.preference user,model_business_pulse_preference,group_business_pulse_user,1,1,1,1

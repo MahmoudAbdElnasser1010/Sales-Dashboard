@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="business_pulse.Receivables">
+        <div class="o_bp_recv">
+            <div class="o_bp_recv_stats">
+                <button type="button" class="o_bp_stat" t-on-click="() => props.onOpen(props.data.action)">
+                    <span class="o_bp_stat_label">Outstanding</span>
+                    <span class="o_bp_stat_value" t-att-title="exact(props.data.total)" t-esc="fmt(props.data.total)"/>
+                    <span class="o_bp_stat_sub">As of <t t-esc="asOf"/></span>
+                </button>
+                <div class="o_bp_stat o_bp_static">
+                    <span class="o_bp_stat_label">Overdue</span>
+                    <span class="o_bp_stat_value" t-att-class="{ 'text-danger': props.data.overdue > 0 }"
+                          t-att-title="exact(props.data.overdue)" t-esc="fmt(props.data.overdue)"/>
+                    <span class="o_bp_stat_sub"><t t-esc="overdueShare"/> of outstanding</span>
+                </div>
+            </div>
+            <div class="o_bp_aging_bar" aria-hidden="true">
+                <t t-foreach="props.data.buckets" t-as="bucket" t-key="bucket.key">
+                    <span t-if="bucket.value > 0" t-attf-class="o_bp_aging_seg o_bp_age_{{ bucket.key }}"
+                          t-att-style="'width:' + segmentWidth(bucket)"/>
+                </t>
+            </div>
+            <ul class="o_bp_aging_list" aria-label="Receivables aging">
+                <li t-foreach="props.data.buckets" t-as="bucket" t-key="bucket.key">
+                    <button type="button" class="o_bp_aging_row" t-on-click="() => props.onOpen(bucket.action)"
+                            t-att-disabled="!bucket.count"
+                            t-att-aria-label="bucket.label + ': ' + exact(bucket.value) + ', ' + bucket.count + ' invoices. Open'">
+                        <span t-attf-class="o_bp_swatch o_bp_age_{{ bucket.key }}" aria-hidden="true"/>
+                        <span class="o_bp_aging_label" t-esc="bucket.label"/>
+                        <span class="o_bp_aging_count text-muted"><t t-esc="bucket.count"/> inv.</span>
+                        <span class="o_bp_aging_value o_bp_num" t-att-title="exact(bucket.value)" t-esc="fmt(bucket.value)"/>
+                    </button>
+                </li>
+            </ul>
+            <t t-if="props.data.debtors.length">
+                <h3 class="o_bp_subheading">Largest overdue balances</h3>
+                <ul class="o_bp_debtors">
+                    <li t-foreach="props.data.debtors" t-as="debtor" t-key="debtor.id">
+                        <button type="button" class="o_bp_debtor_row" t-on-click="() => props.onOpen(debtor.action)">
+                            <span class="o_bp_debtor_name" t-esc="debtor.name"/>
+                            <span class="o_bp_num text-danger" t-att-title="exact(debtor.value)" t-esc="fmt(debtor.value)"/>
+                        </button>
+                    </li>
+                </ul>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="business_pulse.Attention">
+        <ul class="o_bp_alerts">
+            <li t-foreach="props.data.items" t-as="item" t-key="item.key"
+                t-attf-class="o_bp_alert o_bp_sev_{{ item.severity }}">
+                <span class="o_bp_alert_icon" aria-hidden="true"><i t-attf-class="fa {{ severity(item).icon }}"/></span>
+                <div class="o_bp_alert_body">
+                    <div class="o_bp_alert_meta">
+                        <span class="o_bp_sev_badge" t-esc="severity(item).label"/>
+                        <span t-if="amount(item)" class="o_bp_alert_amount o_bp_num" t-esc="amount(item)"/>
+                    </div>
+                    <p class="o_bp_alert_title" t-esc="item.title"/>
+                    <p class="o_bp_alert_text" t-esc="item.explanation"/>
+                    <button type="button" class="btn btn-link btn-sm p-0 o_bp_alert_action" t-on-click="() => props.onOpen(item.action)">
+                        <t t-esc="item.next_step"/> <i class="fa fa-arrow-right ms-1" aria-hidden="true"/>
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </t>
+
+    <t t-name="business_pulse.ActivityFeed">
+        <ul class="o_bp_feed">
+            <li t-foreach="props.data.events" t-as="event" t-key="event.res_model + event.res_id">
+                <button type="button" class="o_bp_feed_row" t-on-click="() => props.onOpenRecord(event)" t-att-aria-label="label(event)">
+                    <span t-attf-class="o_bp_feed_icon o_bp_feed_{{ event.type }}" aria-hidden="true"><i t-attf-class="fa {{ event.icon }}"/></span>
+                    <span class="o_bp_feed_main">
+                        <span class="o_bp_feed_title"><t t-esc="event.label"/> · <strong t-esc="event.title"/></span>
+                        <span class="o_bp_feed_partner" t-esc="event.partner"/>
+                    </span>
+                    <span class="o_bp_feed_side">
+                        <span class="o_bp_num" t-esc="amount(event)"/>
+                        <span class="o_bp_feed_when" t-esc="when(event)"/>
+                    </span>
+                </button>
+            </li>
+        </ul>
+    </t>
+</templates>

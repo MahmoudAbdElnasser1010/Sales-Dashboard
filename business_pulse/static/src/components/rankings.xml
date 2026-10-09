@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="business_pulse.DeltaChip">
+        <span t-if="d" t-attf-class="o_bp_delta o_bp_delta_sm o_bp_tone_{{ d.tone }}">
+            <i t-attf-class="fa {{ d.direction === 'up' ? 'fa-arrow-up' : d.direction === 'down' ? 'fa-arrow-down' : 'fa-minus' }}" aria-hidden="true"/>
+            <span class="visually-hidden" t-esc="d.directionText + ' '"/>
+            <t t-esc="d.label"/>
+        </span>
+    </t>
+
+    <t t-name="business_pulse.Breakdown">
+        <ol class="o_bp_breakdown">
+            <li t-foreach="props.data.items" t-as="item" t-key="item_index">
+                <button type="button" class="o_bp_bar_row" t-on-click="() => this.open(item)"
+                        t-att-aria-label="item.name + ': ' + exact(item.value) + ', ' + share(item.share) + '. Open records'">
+                    <span class="o_bp_bar_label" t-att-title="item.name" t-esc="item.name"/>
+                    <span class="o_bp_bar_track" aria-hidden="true">
+                        <span class="o_bp_bar_fill" t-att-style="'width:' + barWidth(item.value)"/>
+                        <span t-if="item.compare !== null and item.compare > 0" class="o_bp_bar_marker"
+                              t-att-style="'inset-inline-start:' + barWidth(item.compare)"/>
+                    </span>
+                    <span class="o_bp_bar_value o_bp_num" t-att-title="exact(item.value)" t-esc="fmt(item.value)"/>
+                    <span class="o_bp_bar_share o_bp_num" t-esc="share(item.share)"/>
+                    <span class="o_bp_bar_delta"><t t-call="business_pulse.DeltaChip"><t t-set="d" t-value="delta(item)"/></t></span>
+                </button>
+            </li>
+            <li t-if="props.data.others" class="o_bp_bar_others">
+                <div class="o_bp_bar_row o_bp_static">
+                    <span class="o_bp_bar_label">Others (<t t-esc="props.data.others.count"/>)</span>
+                    <span class="o_bp_bar_track" aria-hidden="true">
+                        <span class="o_bp_bar_fill o_bp_fill_muted" t-att-style="'width:' + barWidth(props.data.others.value)"/>
+                    </span>
+                    <span class="o_bp_bar_value o_bp_num" t-esc="fmt(props.data.others.value)"/>
+                    <span class="o_bp_bar_share o_bp_num" t-esc="share(props.data.others.share)"/>
+                    <span class="o_bp_bar_delta"/>
+                </div>
+            </li>
+        </ol>
+        <p class="o_bp_footnote" t-if="props.data.items.some((i) => i.compare)">
+            <span class="o_bp_marker_legend" aria-hidden="true"/> Comparison period value
+        </p>
+    </t>
+
+    <t t-name="business_pulse.TopPerformers">
+        <div class="o_bp_table_wrap">
+            <table class="table table-sm table-hover o_bp_table o_bp_top_table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="o_bp_rank_col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col" class="text-end">Sales</th>
+                        <th scope="col" class="text-end d-none d-md-table-cell" t-if="props.data.kind === 'products'">Qty</th>
+                        <th scope="col" class="text-end d-none d-md-table-cell">Orders</th>
+                        <th scope="col" class="text-end d-none d-sm-table-cell">Share</th>
+                        <th scope="col" class="text-end">Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="props.data.items" t-as="item" t-key="item_index" class="o_bp_row_link"
+                        t-on-click="() => this.open(item)">
+                        <td class="o_bp_rank_col"><span class="o_bp_rank" t-esc="item.rank"/></td>
+                        <td class="o_bp_name_cell">
+                            <button type="button" class="o_bp_link_btn" t-att-title="item.name"
+                                    t-on-click.stop="() => this.open(item)" t-esc="item.name"/>
+                        </td>
+                        <td class="text-end o_bp_num" t-att-title="exact(item.value)" t-esc="fmt(item.value)"/>
+                        <td class="text-end o_bp_num d-none d-md-table-cell" t-if="props.data.kind === 'products'">
+                            <t t-esc="qty(item)"/> <small class="text-muted" t-esc="item.uom"/>
+                        </td>
+                        <td class="text-end o_bp_num d-none d-md-table-cell" t-esc="item.orders"/>
+                        <td class="text-end o_bp_num d-none d-sm-table-cell">
+                            <div class="o_bp_share_cell">
+                                <span class="o_bp_share_bar" aria-hidden="true"><span t-att-style="'width:' + (item.share * 100).toFixed(1) + '%'"/></span>
+                                <t t-esc="share(item.share)"/>
+                            </div>
+                        </td>
+                        <td class="text-end"><t t-call="business_pulse.DeltaChip"><t t-set="d" t-value="delta(item)"/></t></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </t>
+</templates>

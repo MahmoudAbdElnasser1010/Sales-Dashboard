@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="business_pulse.Dashboard">
+        <div class="o_action o_business_pulse">
+            <t t-if="state.bootError">
+                <div class="o_bp_state o_bp_fatal" role="alert">
+                    <i class="fa fa-exclamation-circle o_bp_state_icon text-danger" aria-hidden="true"/>
+                    <p class="o_bp_state_title" t-esc="state.bootError"/>
+                </div>
+            </t>
+            <t t-elif="boot">
+                <!-- Header -->
+                <header class="o_bp_header">
+                    <div class="o_bp_title_block">
+                        <h1 class="o_bp_title">Business Pulse</h1>
+                        <p class="o_bp_subtitle">
+                            Executive overview<span class="o_bp_dot" aria-hidden="true">·</span><t t-esc="boot.company_name"/>
+                        </p>
+                    </div>
+                    <div class="o_bp_header_actions">
+                        <button type="button" class="btn btn-light o_bp_icon_btn" t-on-click="refresh" title="Refresh" aria-label="Refresh all sections">
+                            <i class="fa fa-refresh" aria-hidden="true"/>
+                        </button>
+                        <Dropdown position="'bottom-end'">
+                            <button type="button" class="btn btn-light" aria-label="Export">
+                                <i class="fa fa-download me-1" aria-hidden="true"/><span class="d-none d-sm-inline">Export</span>
+                            </button>
+                            <t t-set-slot="content">
+                                <div class="dropdown-header">CSV export (current filters)</div>
+                                <t t-foreach="exportItems" t-as="item" t-key="item.key">
+                                    <DropdownItem onSelected="() => this.exportCsv(item.key)">
+                                        <t t-esc="item.label"/>
+                                    </DropdownItem>
+                                </t>
+                            </t>
+                        </Dropdown>
+                        <button type="button" class="btn btn-primary" t-on-click="openCustomize">
+                            <i class="fa fa-sliders me-1" aria-hidden="true"/><span class="d-none d-sm-inline">Customize</span>
+                            <span class="visually-hidden d-sm-none">Customize</span>
+                        </button>
+                        <button t-if="permissions.configure" type="button" class="btn btn-light o_bp_icon_btn"
+                                t-on-click="openSettings" title="Settings" aria-label="Business Pulse settings">
+                            <i class="fa fa-cog" aria-hidden="true"/>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Global filters -->
+                <div class="o_bp_toolbar" role="search" aria-label="Dashboard filters">
+                    <div class="o_bp_toolbar_row">
+                        <Dropdown>
+                            <button type="button" class="btn o_bp_filter_btn" aria-label="Period">
+                                <i class="fa fa-calendar me-2" aria-hidden="true"/>
+                                <span class="o_bp_filter_btn_label">Period</span>
+                                <strong t-esc="presetLabel"/>
+                                <i class="fa fa-angle-down ms-2" aria-hidden="true"/>
+                            </button>
+                            <t t-set-slot="content">
+                                <t t-foreach="boot.presets" t-as="preset" t-key="preset.key">
+                                    <div t-if="preset.key === 'today' or preset.key === 'this_week' or preset.key === 'last_7_days' or preset.key === 'custom'"
+                                         t-att-class="{ 'dropdown-divider': preset.key !== 'today' }"/>
+                                    <DropdownItem onSelected="() => this.selectPreset(preset.key)"
+                                                  class="{ 'o_bp_selected': state.filters.preset === preset.key }">
+                                        <span class="o_bp_menu_item">
+                                            <span><i t-attf-class="fa fa-check me-2 {{ state.filters.preset === preset.key ? '' : 'invisible' }}" aria-hidden="true"/><t t-esc="preset.label"/></span>
+                                            <small t-if="preset.date_from" class="text-muted ms-3" t-esc="formatPresetRange(preset)"/>
+                                        </span>
+                                    </DropdownItem>
+                                </t>
+                            </t>
+                        </Dropdown>
+
+                        <t t-if="state.filters.preset === 'custom'">
+                            <div class="o_bp_daterange">
+                                <label class="visually-hidden" for="bp_date_from">Start date</label>
+                                <input id="bp_date_from" type="date" class="form-control form-control-sm" t-model="state.draft.date_from" t-att-max="state.draft.date_to"/>
+                                <span aria-hidden="true">→</span>
+                                <label class="visually-hidden" for="bp_date_to">End date</label>
+                                <input id="bp_date_to" type="date" class="form-control form-control-sm" t-model="state.draft.date_to" t-att-min="state.draft.date_from"/>
+                                <button type="button" class="btn btn-sm btn-secondary" t-on-click="applyCustomRange">Apply</button>
+                            </div>
+                        </t>
+
+                        <Dropdown>
+                            <button type="button" class="btn o_bp_filter_btn" aria-label="Comparison">
+                                <i class="fa fa-exchange me-2" aria-hidden="true"/>
+                                <span class="o_bp_filter_btn_label">Compare</span>
+                                <strong t-esc="comparisonLabel"/>
+                                <i class="fa fa-angle-down ms-2" aria-hidden="true"/>
+                            </button>
+                            <t t-set-slot="content">
+                                <t t-foreach="boot.comparisons" t-as="cmp" t-key="cmp.key">
+                                    <DropdownItem onSelected="() => this.selectComparison(cmp.key)">
+                                        <i t-attf-class="fa fa-check me-2 {{ state.filters.comparison === cmp.key ? '' : 'invisible' }}" aria-hidden="true"/><t t-esc="cmp.label"/>
+                                    </DropdownItem>
+                                </t>
+                            </t>
+                        </Dropdown>
+
+                        <t t-if="state.filters.comparison === 'custom'">
+                            <div class="o_bp_daterange">
+                                <label class="visually-hidden" for="bp_cmp_from">Comparison start date</label>
+                                <input id="bp_cmp_from" type="date" class="form-control form-control-sm" t-model="state.draft.compare_from" t-att-max="state.draft.compare_to"/>
+                                <span aria-hidden="true">→</span>
+                                <label class="visually-hidden" for="bp_cmp_to">Comparison end date</label>
+                                <input id="bp_cmp_to" type="date" class="form-control form-control-sm" t-model="state.draft.compare_to" t-att-min="state.draft.compare_from"/>
+                                <button type="button" class="btn btn-sm btn-secondary" t-on-click="applyCustomComparison">Apply</button>
+                            </div>
+                        </t>
+
+                        <button type="button" class="btn o_bp_filter_btn" t-on-click="toggleFilters"
+                                t-att-aria-expanded="state.showFilters ? 'true' : 'false'" aria-controls="bp_filter_panel">
+                            <i class="fa fa-filter me-2" aria-hidden="true"/>Filters
+                            <span t-if="activeChips.length" class="badge rounded-pill o_bp_badge ms-2" t-esc="activeChips.length"/>
+                            <i t-attf-class="fa {{ state.showFilters ? 'fa-angle-up' : 'fa-angle-down' }} ms-2" aria-hidden="true"/>
+                        </button>
+
+                        <div class="o_bp_period_caption" aria-live="polite">
+                            <span class="o_bp_period_main" t-esc="periodCaption"/>
+                            <t t-if="compareCaption">
+                                <span class="o_bp_vs">vs</span>
+                                <span class="o_bp_period_cmp" t-esc="compareCaption"/>
+                            </t>
+                        </div>
+                    </div>
+
+                    <div t-if="state.showFilters" id="bp_filter_panel" class="o_bp_filter_panel">
+                        <div t-if="boot.companies.length > 1" class="o_bp_filter_field">
+                            <label class="o_bp_filter_label">Company</label>
+                            <MultiRecordSelector resModel="'res.company'" resIds="state.filters.company_ids"
+                                                 domain="companyDomain" placeholder="'All selected companies'"
+                                                 update="(ids) => this.updateDimension('company_ids', ids)"/>
+                        </div>
+                        <t t-foreach="dimensionFilters" t-as="dim" t-key="dim.key">
+                            <div class="o_bp_filter_field">
+                                <label class="o_bp_filter_label" t-esc="dim.label"/>
+                                <MultiRecordSelector resModel="dim.model" resIds="state.filters[dim.key]"
+                                                     domain="dim.domain or []" placeholder="'All'"
+                                                     fieldString="dim.label"
+                                                     update="(ids) => this.updateDimension(dim.key, ids)"/>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div t-if="activeChips.length" class="o_bp_chips" aria-label="Active filters">
+                        <span t-foreach="activeChips" t-as="chip" t-key="chip.key" class="o_bp_chip">
+                            <span class="o_bp_chip_label" t-esc="chip.label + ':'"/>
+                            <span t-esc="chip.value"/>
+                            <button type="button" class="o_bp_chip_remove" t-on-click="() => this.clearDimension(chip.key)"
+                                    t-att-aria-label="'Remove ' + chip.label + ' filter'">
+                                <i class="fa fa-times" aria-hidden="true"/>
+                            </button>
+                        </span>
+                        <button type="button" class="btn btn-link btn-sm o_bp_clear" t-on-click="clearAll">Clear all</button>
+                    </div>
+                </div>
+
+                <main class="o_bp_content">
+                    <!-- KPI cards -->
+                    <section class="o_bp_kpis" aria-label="Key performance indicators">
+                        <t t-if="state.widgets.kpis.status === 'forbidden' or state.widgets.kpis.status === 'invalid' or (state.widgets.kpis.status === 'error' and !state.widgets.kpis.data?.cards)">
+                            <WidgetFrame title.translate="Key indicators" widget="state.widgets.kpis" onRetry="() => this.loadWidget('kpis')" className="'o_bp_span_all'"/>
+                        </t>
+                        <t t-else="">
+                            <t t-foreach="kpiCards" t-as="entry" t-key="entry.key">
+                                <KpiCard card="entry.card" meta="entry.meta" currencyId="currencyId"
+                                         hasComparison="hasComparison" loading="state.widgets.kpis.loading and !!state.widgets.kpis.data"
+                                         onOpen.bind="openAction"/>
+                            </t>
+                        </t>
+                    </section>
+
+                    <div class="o_bp_grid">
+                        <!-- Trend -->
+                        <WidgetFrame title.translate="Performance trend" subtitle="trendSubtitle" headingId="'bp_h_trend'"
+                                     widget="state.widgets.trend" skeleton="'chart'" className="'o_bp_col_8'"
+                                     isEmpty="!!state.widgets.trend.data?.empty and !state.widgets.trend.data?.compare_total"
+                                     emptyTitle.translate="No activity in this period"
+                                     emptyText.translate="Try a longer period or remove some filters."
+                                     onRetry="() => this.loadWidget('trend')" onExport="() => this.exportCsv('trend')">
+                            <t t-set-slot="actions">
+                                <div class="btn-group btn-group-sm o_bp_segmented" role="group" aria-label="Metric">
+                                    <t t-foreach="trendMetrics" t-as="metric" t-key="metric.key">
+                                        <button type="button" class="btn"
+                                                t-att-class="state.options.trend.metric === metric.key ? 'btn-secondary active' : 'btn-light'"
+                                                t-att-aria-pressed="state.options.trend.metric === metric.key ? 'true' : 'false'"
+                                                t-on-click="() => this.setTrendMetric(metric.key)" t-esc="metric.label"/>
+                                    </t>
+                                </div>
+                                <label class="visually-hidden" for="bp_granularity">Group by</label>
+                                <select id="bp_granularity" class="form-select form-select-sm o_bp_select" t-on-change="setGranularity">
+                                    <t t-foreach="granularities" t-as="g" t-key="g.key">
+                                        <option t-att-value="g.key" t-att-selected="state.options.trend.granularity === g.key" t-esc="g.label"/>
+                                    </t>
+                                </select>
+                            </t>
+                            <TrendChart data="state.widgets.trend.data" currencyId="state.widgets.trend.data.currency_id"
+                                        currentLabel="trendCurrentLabel" compareLabel="trendCompareLabel"
+                                        onPointClick.bind="openTrendPoint"/>
+                        </WidgetFrame>
+
+                        <!-- Attention -->
+                        <WidgetFrame title.translate="Needs attention" subtitle.translate="Rules-based alerts on live data"
+                                     headingId="'bp_h_attention'" widget="state.widgets.attention" className="'o_bp_col_4 o_bp_scroll_body'"
+                                     isEmpty="!!state.widgets.attention.data?.empty"
+                                     emptyTitle.translate="All clear"
+                                     emptyText.translate="Nothing needs your attention right now."
+                                     onRetry="() => this.loadWidget('attention')">
+                            <Attention data="state.widgets.attention.data" currencyId="state.widgets.attention.data.currency_id"
+                                       onOpen.bind="openAction"/>
+                        </WidgetFrame>
+
+                        <!-- Breakdown -->
+                        <WidgetFrame title.translate="Sales breakdown" subtitle="breakdownSubtitle" headingId="'bp_h_breakdown'"
+                                     widget="state.widgets.breakdown" skeleton="'bars'" className="'o_bp_col_6'"
+                                     isEmpty="!!state.widgets.breakdown.data?.empty"
+                                     emptyTitle.translate="No confirmed sales in this period"
+                                     onRetry="() => this.loadWidget('breakdown')" onExport="() => this.exportCsv('breakdown')">
+                            <t t-set-slot="actions">
+                                <label class="visually-hidden" for="bp_dimension">Break down by</label>
+                                <select id="bp_dimension" class="form-select form-select-sm o_bp_select" t-on-change="setDimension">
+                                    <t t-foreach="boot.dimensions" t-as="dim" t-key="dim.key">
+                                        <option t-att-value="dim.key" t-att-selected="state.options.breakdown.dimension === dim.key" t-esc="dim.label"/>
+                                    </t>
+                                </select>
+                            </t>
+                            <Breakdown data="state.widgets.breakdown.data" currencyId="state.widgets.breakdown.data.currency_id"
+                                       onOpen.bind="openAction"/>
+                        </WidgetFrame>
+
+                        <!-- Top performers -->
+                        <WidgetFrame title.translate="Top performers" subtitle.translate="Ranked by confirmed sales"
+                                     headingId="'bp_h_top'" widget="state.widgets.top" className="'o_bp_col_6'"
+                                     isEmpty="!!state.widgets.top.data?.empty"
+                                     emptyTitle.translate="No confirmed sales in this period"
+                                     onRetry="() => this.loadWidget('top')" onExport="() => this.exportCsv('top')">
+                            <t t-set-slot="actions">
+                                <div class="o_bp_tabs" role="tablist" aria-label="Ranking">
+                                    <t t-foreach="topKinds" t-as="kind" t-key="kind.key">
+                                        <button type="button" role="tab" class="o_bp_tab"
+                                                t-att-class="{ 'active': state.options.top.kind === kind.key }"
+                                                t-att-aria-selected="state.options.top.kind === kind.key ? 'true' : 'false'"
+                                                t-att-tabindex="state.options.top.kind === kind.key ? '0' : '-1'"
+                                                t-on-keydown="(ev) => this.onTabKeydown(ev, topKinds, state.options.top.kind, (k) => this.setTopKind(k))"
+                                                t-on-click="() => this.setTopKind(kind.key)" t-esc="kind.label"/>
+                                    </t>
+                                </div>
+                            </t>
+                            <TopPerformers data="state.widgets.top.data" currencyId="state.widgets.top.data.currency_id"
+                                           onOpen.bind="openAction"/>
+                        </WidgetFrame>
+
+                        <!-- Receivables -->
+                        <WidgetFrame t-if="permissions.finance" title.translate="Receivables" subtitle.translate="Unpaid customer invoices by due date"
+                                     headingId="'bp_h_recv'" widget="state.widgets.receivables" skeleton="'bars'" className="'o_bp_col_6'"
+                                     isEmpty="!!state.widgets.receivables.data?.empty"
+                                     emptyTitle.translate="No outstanding receivables"
+                                     emptyText.translate="Every posted customer invoice is paid."
+                                     ignoredFilters="state.widgets.receivables.data?.ignored_filters or []"
+                                     onRetry="() => this.loadWidget('receivables')" onExport="() => this.exportCsv('receivables')">
+                            <Receivables data="state.widgets.receivables.data" currencyId="state.widgets.receivables.data.currency_id"
+                                         onOpen.bind="openAction"/>
+                        </WidgetFrame>
+
+                        <!-- Activity -->
+                        <WidgetFrame title.translate="Recent activity" subtitle.translate="Latest documents you can access"
+                                     headingId="'bp_h_activity'" widget="state.widgets.activity"
+                                     className="permissions.finance ? 'o_bp_col_6' : 'o_bp_col_12'"
+                                     isEmpty="!!state.widgets.activity.data?.empty"
+                                     emptyTitle.translate="No recent activity"
+                                     onRetry="() => this.loadWidget('activity')">
+                            <ActivityFeed data="state.widgets.activity.data" onOpenRecord.bind="openRecord"/>
+                        </WidgetFrame>
+                    </div>
+                </main>
+            </t>
+            <t t-else="">
+                <div class="o_bp_state o_bp_fatal" role="status">
+                    <i class="fa fa-circle-o-notch fa-spin o_bp_state_icon" aria-hidden="true"/>
+                    <p class="o_bp_state_title">Loading Business Pulse…</p>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

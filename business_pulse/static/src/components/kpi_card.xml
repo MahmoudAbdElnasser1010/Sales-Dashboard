@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="business_pulse.Sparkline">
+        <svg t-if="paths" class="o_bp_sparkline" t-attf-class="o_bp_tone_{{ props.tone or 'neutral' }}"
+             viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path class="o_bp_spark_area" t-att-d="paths.area"/>
+            <path class="o_bp_spark_line" t-att-d="paths.line" vector-effect="non-scaling-stroke"/>
+        </svg>
+    </t>
+
+    <t t-name="business_pulse.KpiCard">
+        <article class="o_bp_kpi" t-att-class="{ 'o_bp_kpi_link': canOpen, 'o_bp_dimmed': props.loading }">
+            <div class="o_bp_kpi_head">
+                <span class="o_bp_kpi_icon" aria-hidden="true"><i t-attf-class="fa {{ props.meta.icon }}"/></span>
+                <h3 class="o_bp_kpi_title">
+                    <button t-if="canOpen" type="button" class="o_bp_kpi_open stretched-link"
+                            t-on-click="open" t-att-aria-label="props.meta.label + ': ' + exactValue + '. Open records'">
+                        <t t-esc="props.meta.label"/>
+                    </button>
+                    <t t-else="" t-esc="props.meta.label"/>
+                </h3>
+                <span class="o_bp_kpi_info" tabindex="0" role="note"
+                      t-att-data-tooltip="props.meta.definition" t-att-aria-label="props.meta.definition">
+                    <i class="fa fa-info-circle" aria-hidden="true"/>
+                </span>
+            </div>
+            <t t-if="props.card.status === 'ok'">
+                <div class="o_bp_kpi_value" t-att-title="exactValue" t-esc="value"/>
+                <div class="o_bp_kpi_foot">
+                    <t t-if="delta">
+                        <span t-attf-class="o_bp_delta o_bp_tone_{{ delta.tone }}" t-att-title="deltaTitle">
+                            <i t-attf-class="fa {{ delta.direction === 'up' ? 'fa-arrow-up' : delta.direction === 'down' ? 'fa-arrow-down' : 'fa-minus' }}" aria-hidden="true"/>
+                            <span class="visually-hidden" t-esc="delta.directionText + ' '"/>
+                            <t t-esc="delta.label"/>
+                        </span>
+                        <span class="o_bp_kpi_compare">vs <t t-esc="compareValue"/></span>
+                    </t>
+                    <span t-elif="props.meta.snapshot" class="o_bp_kpi_compare"><i class="fa fa-clock-o me-1" aria-hidden="true"/>As of today</span>
+                    <span t-elif="props.hasComparison" class="o_bp_kpi_compare">No comparison data</span>
+                </div>
+                <div t-if="props.card.note" class="o_bp_kpi_note" t-esc="props.card.note"/>
+                <Sparkline t-if="props.card.spark" values="props.card.spark" tone="delta ? delta.tone : 'neutral'"/>
+            </t>
+            <div t-elif="props.card.status === 'forbidden'" class="o_bp_kpi_state">
+                <i class="fa fa-lock me-1" aria-hidden="true"/>Restricted for your role
+            </div>
+            <div t-elif="props.card.status === 'loading'" class="o_bp_kpi_state" aria-hidden="true">
+                <div class="o_bp_sk_line" style="width: 60%; height: 1.75rem"/>
+                <div class="o_bp_sk_line mt-2" style="width: 40%"/>
+            </div>
+            <div t-else="" class="o_bp_kpi_state" role="alert">
+                <i class="fa fa-exclamation-circle me-1 text-danger" aria-hidden="true"/>Could not be calculated
+            </div>
+        </article>
+    </t>
+</templates>

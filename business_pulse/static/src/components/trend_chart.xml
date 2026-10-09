@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="business_pulse.TrendChart">
+        <div class="o_bp_trend" t-ref="root">
+            <div class="o_bp_trend_top">
+                <div class="o_bp_trend_total">
+                    <span class="o_bp_trend_value" t-esc="totalLabel"/>
+                    <span t-if="totalDelta" t-attf-class="o_bp_delta o_bp_tone_{{ totalDelta.tone }}">
+                        <i t-attf-class="fa {{ totalDelta.direction === 'up' ? 'fa-arrow-up' : totalDelta.direction === 'down' ? 'fa-arrow-down' : 'fa-minus' }}" aria-hidden="true"/>
+                        <span class="visually-hidden" t-esc="totalDelta.directionText + ' '"/>
+                        <t t-esc="totalDelta.label"/>
+                    </span>
+                </div>
+                <ul class="o_bp_legend" aria-label="Legend">
+                    <li><span class="o_bp_swatch o_bp_swatch_current" aria-hidden="true"/><t t-esc="props.currentLabel"/></li>
+                    <li t-if="hasComparison"><span class="o_bp_swatch o_bp_swatch_compare" aria-hidden="true"/><t t-esc="props.compareLabel"/></li>
+                </ul>
+                <div class="btn-group btn-group-sm o_bp_toggle" role="group" aria-label="Display as">
+                    <button type="button" class="btn" t-att-class="view.mode === 'chart' ? 'btn-secondary active' : 'btn-light'"
+                            t-att-aria-pressed="view.mode === 'chart' ? 'true' : 'false'" t-on-click="() => this.setMode('chart')"
+                            title="Chart"><i class="fa fa-line-chart" aria-hidden="true"/><span class="visually-hidden">Chart</span></button>
+                    <button type="button" class="btn" t-att-class="view.mode === 'table' ? 'btn-secondary active' : 'btn-light'"
+                            t-att-aria-pressed="view.mode === 'table' ? 'true' : 'false'" t-on-click="() => this.setMode('table')"
+                            title="Table"><i class="fa fa-table" aria-hidden="true"/><span class="visually-hidden">Table</span></button>
+                </div>
+            </div>
+            <t t-if="view.mode === 'chart'">
+                <div class="o_bp_chart_box">
+                    <canvas t-ref="canvas" role="img" t-att-aria-label="summary"/>
+                </div>
+                <p class="visually-hidden" t-esc="summary"/>
+            </t>
+            <div t-else="" class="o_bp_table_wrap o_bp_trend_table">
+                <table class="table table-sm o_bp_table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Period</th>
+                            <th scope="col" class="text-end">Value</th>
+                            <t t-if="hasComparison">
+                                <th scope="col">Comparison period</th>
+                                <th scope="col" class="text-end">Comparison value</th>
+                            </t>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="rows" t-as="row" t-key="row_index">
+                            <td t-esc="row.label"/>
+                            <td class="text-end o_bp_num" t-esc="row.value"/>
+                            <t t-if="hasComparison">
+                                <td class="text-muted" t-esc="row.compareLabel"/>
+                                <td class="text-end o_bp_num text-muted" t-esc="row.compare"/>
+                            </t>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </t>
+</templates>

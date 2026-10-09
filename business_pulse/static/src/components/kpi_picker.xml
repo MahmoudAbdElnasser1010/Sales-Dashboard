@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="business_pulse.KpiPicker">
+        <Dialog title.translate="Customize your dashboard" size="'md'">
+            <div class="o_bp_picker">
+                <h3 class="o_bp_subheading">KPI cards</h3>
+                <p class="text-muted small mb-2">
+                    Choose up to <t t-esc="maxCards"/> cards and set their order. Selected: <strong t-esc="selectedCount"/>.
+                </p>
+                <ul class="o_bp_picker_list">
+                    <li t-foreach="state.order" t-as="key" t-key="key" class="o_bp_picker_item"
+                        t-att-class="{ 'o_bp_picker_on': state.checked[key] }">
+                        <div class="form-check flex-grow-1 mb-0">
+                            <input type="checkbox" class="form-check-input" t-attf-id="bp_kpi_{{ key }}"
+                                   t-att-checked="state.checked[key]" t-on-change="() => this.toggle(key)"
+                                   t-att-disabled="!state.checked[key] and selectedCount >= maxCards"/>
+                            <label class="form-check-label" t-attf-for="bp_kpi_{{ key }}">
+                                <i t-attf-class="fa {{ byKey[key].icon }} me-2 text-muted" aria-hidden="true"/>
+                                <t t-esc="byKey[key].label"/>
+                            </label>
+                            <div class="o_bp_picker_def" t-esc="byKey[key].definition"/>
+                        </div>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-light" t-att-disabled="key_first"
+                                    t-on-click="() => this.move(key_index, -1)" t-att-aria-label="'Move ' + byKey[key].label + ' up'">
+                                <i class="fa fa-chevron-up" aria-hidden="true"/>
+                            </button>
+                            <button type="button" class="btn btn-light" t-att-disabled="key_last"
+                                    t-on-click="() => this.move(key_index, 1)" t-att-aria-label="'Move ' + byKey[key].label + ' down'">
+                                <i class="fa fa-chevron-down" aria-hidden="true"/>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+                <h3 class="o_bp_subheading mt-4">My defaults</h3>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label class="form-label small" for="bp_pref_preset">Default period</label>
+                        <select id="bp_pref_preset" class="form-select" t-model="state.datePreset">
+                            <option value="">Company default</option>
+                            <option t-foreach="presetOptions" t-as="preset" t-key="preset.key" t-att-value="preset.key" t-esc="preset.label"/>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label small" for="bp_pref_cmp">Default comparison</label>
+                        <select id="bp_pref_cmp" class="form-select" t-model="state.comparison">
+                            <option value="">Company default</option>
+                            <option t-foreach="comparisonOptions" t-as="cmp" t-key="cmp.key" t-att-value="cmp.key" t-esc="cmp.label"/>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-on-click="save" t-att-disabled="state.saving or !selectedCount">Save</button>
+                <button class="btn btn-secondary" t-on-click="() => props.close()">Cancel</button>
+                <button class="btn btn-link ms-auto" t-on-click="reset">Restore defaults</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>
