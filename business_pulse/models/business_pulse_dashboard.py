@@ -692,8 +692,7 @@ class BusinessPulseDashboard(models.AbstractModel):
     @api.model
     def get_widget(self, widget, raw_filters, options=None):
         """Compute one widget. Always returns a dict with a ``status`` key."""
-        handlers = ('kpis', 'trend', 'breakdown', 'top', 'receivables', 'attention', 'activity')
-        if widget not in handlers:
+        if widget not in self._widget_names():
             return {'status': 'error', 'message': _("Unknown widget.")}
         try:
             self._check_dashboard_access()
@@ -714,6 +713,14 @@ class BusinessPulseDashboard(models.AbstractModel):
         data['currency_id'] = service.env.company.currency_id.id
         data['period'] = self._period_info(filters)
         return data
+
+    @api.model
+    def _widget_names(self):
+        return ('kpis', 'trend', 'breakdown', 'top', 'receivables', 'attention', 'activity')
+
+    @api.model
+    def _export_names(self):
+        return ('kpis', 'trend', 'breakdown', 'top', 'receivables')
 
     @api.model
     def get_drill_action(self, kind, raw_filters, options=None):
@@ -1212,98 +1219,132 @@ class BusinessPulseDashboard(models.AbstractModel):
     # Export
     # ------------------------------------------------------------------
     @api.model
-    def get_export(self, widget, raw_filters, options=None):
-        """Return a tabular, permission-checked export of a widget."""
-        options = options if isinstance(options, dict) else {}
+    def _export_options(self, widget, options):
         if widget == 'kpis':
-            options = dict(options, keys=options.get('keys') or DEFAULT_KPIS)
+            return dict(options, keys=options.get('keys') or DEFAULT_KPIS)
         if widget == 'top':
-            options = dict(options, limit=10)
+            return dict(options, limit=10)
+        return options
+
+    @api.model
+    def get_export(self, widget, raw_filters, options=None):
+        """Return a typed, permission-checked table for a widget.
+
+        ``columns`` is a list of ``(header, kind)`` where kind is one of
+        ``text``, ``money``, ``count``, ``number``, ``percent`` (ratio 0-1)
+        or ``date``; CSV and XLSX writers format cells from it.
+        """
+        if widget not in self._export_names():
+            raise UserError(_("This section cannot be exported."))
+        options = self._export_options(widget, options if isinstance(options, dict) else {})
         data = self.get_widget(widget, raw_filters, options)
         if data.get('status') != 'ok':
             raise UserError(data.get('message') or _("This report cannot be exported."))
         currency = self.env['res.currency'].browse(data['currency_id'])
         period = data['period']
-        catalog = self._kpi_catalog()
+        title, columns, rows = self._export_table(widget, data, options)
+        rows = [[self._export_cell(value, kind, currency) for value, (_h, kind) in zip(row, columns)]
+                for row in rows[:self._settings()['export_limit']]]
         has_cmp = bool(period['cmp_from'])
-        headers, rows, title = [], [], ''
-
-        def money(value):
-            return '' if value is None else currency.round(value)
-
-        def num(value, kind):
-            if value is None:
-                return ''
-            if kind == 'rate':
-                return round(value, 4)
-            return value if kind == 'count' else money(value)
-
-        def change(value, compare, kind='monetary'):
-            if value is None or compare is None:
-                return ''
-            return num(value - compare, kind)
-
-        if widget == 'kpis':
-            title = _("KPI Summary")
-            headers = [_("Metric"), _("Value"), _("Comparison"), _("Change"), _("Definition")]
-            for card in data['cards']:
-                if card['status'] != 'ok':
-                    continue
-                meta = catalog[card['key']]
-                kind = meta['kind']
-                rows.append([meta['label'], num(card.get('value'), kind), num(card.get('compare'), kind),
-                             change(card.get('value'), card.get('compare'), kind), meta['definition']])
-        elif widget == 'trend':
-            title = _("Sales Trend")
-            headers = [_("Period start"), _("Value")] + ([_("Comparison start"), _("Comparison value")] if has_cmp else [])
-            for i, label in enumerate(data['labels']):
-                kind = 'count' if data['metric'] == 'orders' else 'monetary'
-                row = [label, num(data['current'][i], kind)]
-                if has_cmp:
-                    row += [data['compare_labels'][i] if i < len(data['compare_labels']) else '',
-                            num(data['compare'][i], kind) if i < len(data['compare']) else '']
-                rows.append(row)
-        elif widget == 'breakdown':
-            title = _("Sales by %s", self._dimension_labels()[data['dimension']])
-            headers = [_("Name"), _("Confirmed sales"), _("Share")] + ([_("Comparison"), _("Change")] if has_cmp else [])
-            for item in data['items']:
-                row = [item['name'], money(item['value']), round(item['share'], 4)]
-                if has_cmp:
-                    row += [money(item['compare']), change(item['value'], item['compare'])]
-                rows.append(row)
-            if data.get('others'):
-                rows.append([_("Others"), money(data['others']['value']), round(data['others']['share'], 4)]
-                            + (['', ''] if has_cmp else []))
-        elif widget == 'top':
-            title = _("Top %s", data['kind'])
-            headers = [_("Rank"), _("Name"), _("Confirmed sales"), _("Orders"), _("Share")]
-            if data['kind'] == 'products':
-                headers += [_("Quantity"), _("Unit")]
-            if has_cmp:
-                headers += [_("Comparison"), _("Change")]
-            for item in data['items']:
-                row = [item['rank'], item['name'], money(item['value']), item['orders'], round(item['share'], 4)]
-                if data['kind'] == 'products':
-                    row += [item['quantity'], item['uom']]
-                if has_cmp:
-                    row += [money(item['compare']), change(item['value'], item['compare'])]
-                rows.append(row)
-        elif widget == 'receivables':
-            title = _("Receivables Aging")
-            headers = [_("Bucket"), _("Amount"), _("Invoices")]
-            rows = [[b['label'], money(b['value']), b['count']] for b in data['buckets']]
-            rows.append([_("Total"), money(data['total']), sum(b['count'] for b in data['buckets'])])
-        else:
-            raise UserError(_("This section cannot be exported."))
-
-        rows = rows[:self._settings()['export_limit']]
+        companies = self.env['res.company'].browse(self._parse_filters(raw_filters)['company_ids'])
         meta = [
             (_("Report"), title),
-            (_("Company"), ', '.join(self.env['res.company'].browse(self._parse_filters(raw_filters)['company_ids'])
-                                     .mapped('name'))),
+            (_("Company"), ', '.join(companies.mapped('name'))),
             (_("Period"), f"{period['date_from']} → {period['date_to']}"),
             (_("Comparison"), f"{period['cmp_from']} → {period['cmp_to']}" if has_cmp else _("None")),
             (_("Currency"), currency.name),
             (_("Generated"), fields.Datetime.to_string(fields.Datetime.context_timestamp(self, fields.Datetime.now()))),
         ]
-        return {'title': title, 'meta': meta, 'headers': headers, 'rows': rows}
+        return {
+            'title': title, 'meta': meta,
+            'headers': [header for header, _kind in columns],
+            'kinds': [kind for _header, kind in columns],
+            'rows': rows,
+            'currency': {'name': currency.name, 'symbol': currency.symbol, 'position': currency.position,
+                         'decimals': currency.decimal_places},
+        }
+
+    @api.model
+    def _export_cell(self, value, kind, currency):
+        if value is None or value is False:
+            return ''
+        if kind == 'money' and isinstance(value, (int, float)):
+            return currency.round(value)
+        if kind in ('percent', 'number') and isinstance(value, float):
+            return round(value, 4)
+        return value
+
+    @api.model
+    def _export_table(self, widget, data, options):
+        """Return ``(title, columns, rows)`` for an exportable widget."""
+        catalog = self._kpi_catalog()
+        has_cmp = bool(data['period']['cmp_from'])
+
+        def diff(value, compare):
+            return None if value is None or compare is None else value - compare
+
+        if widget == 'kpis':
+            # values of different kinds share a column: one row per metric with its own unit
+            columns = [(_("Metric"), 'text'), (_("Value"), 'number'), (_("Comparison"), 'number'),
+                       (_("Change"), 'number'), (_("Unit"), 'text'), (_("Definition"), 'text')]
+            units = {'monetary': self.env['res.currency'].browse(data['currency_id']).name,
+                     'count': _("count"), 'rate': _("ratio (0-1)")}
+            rows = []
+            for card in data['cards']:
+                if card['status'] != 'ok':
+                    continue
+                meta = catalog[card['key']]
+                rows.append([meta['label'], card.get('value'), card.get('compare'),
+                             diff(card.get('value'), card.get('compare')), units[meta['kind']],
+                             meta['definition']])
+            return _("KPI Summary"), columns, rows
+        if widget == 'trend':
+            kind = 'count' if data['metric'] == 'orders' else 'money'
+            columns = [(_("Period start"), 'date'), (_("Value"), kind)]
+            if has_cmp:
+                columns += [(_("Comparison start"), 'date'), (_("Comparison value"), kind)]
+            rows = []
+            for i, label in enumerate(data['labels']):
+                row = [label, data['current'][i]]
+                if has_cmp:
+                    row += [data['compare_labels'][i] if i < len(data['compare_labels']) else None,
+                            data['compare'][i] if i < len(data['compare']) else None]
+                rows.append(row)
+            return _("Sales Trend"), columns, rows
+        if widget == 'breakdown':
+            columns = [(_("Name"), 'text'), (_("Confirmed sales"), 'money'), (_("Share"), 'percent')]
+            if has_cmp:
+                columns += [(_("Comparison"), 'money'), (_("Change"), 'money')]
+            rows = []
+            for item in data['items']:
+                row = [item['name'], item['value'], item['share']]
+                if has_cmp:
+                    row += [item['compare'], diff(item['value'], item['compare'])]
+                rows.append(row)
+            if data.get('others'):
+                rows.append([_("Others"), data['others']['value'], data['others']['share']] + ([None, None] if has_cmp else []))
+            return _("Sales by %s", self._dimension_labels()[data['dimension']]), columns, rows
+        if widget == 'top':
+            columns = [(_("Rank"), 'count'), (_("Name"), 'text'), (_("Confirmed sales"), 'money'),
+                       (_("Orders"), 'count'), (_("Share"), 'percent')]
+            if data['kind'] == 'products':
+                columns += [(_("Quantity"), 'number'), (_("Unit"), 'text')]
+            if has_cmp:
+                columns += [(_("Comparison"), 'money'), (_("Change"), 'money')]
+            rows = []
+            for item in data['items']:
+                row = [item['rank'], item['name'], item['value'], item['orders'], item['share']]
+                if data['kind'] == 'products':
+                    row += [item['quantity'], item['uom']]
+                if has_cmp:
+                    row += [item['compare'], diff(item['value'], item['compare'])]
+                rows.append(row)
+            labels = {'products': _("Top Products"), 'customers': _("Top Customers"),
+                      'salespeople': _("Top Salespeople")}
+            return labels[data['kind']], columns, rows
+        if widget == 'receivables':
+            columns = [(_("Bucket"), 'text'), (_("Amount"), 'money'), (_("Invoices"), 'count')]
+            rows = [[b['label'], b['value'], b['count']] for b in data['buckets']]
+            rows.append([_("Total"), data['total'], sum(b['count'] for b in data['buckets'])])
+            return _("Receivables Aging"), columns, rows
+        raise UserError(_("This section cannot be exported."))

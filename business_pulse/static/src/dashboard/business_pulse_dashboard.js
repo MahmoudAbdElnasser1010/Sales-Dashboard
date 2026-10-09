@@ -17,9 +17,18 @@ import { TrendChart } from "../components/trend_chart";
 import { Breakdown, TopPerformers } from "../components/rankings";
 import { ActivityFeed, Attention, Receivables } from "../components/insights";
 import { KpiPicker } from "../components/kpi_picker";
+import { Funnel, QuotationAging, SalespeopleTable, TargetsPanel } from "../components/sales";
+import { SaveViewDialog } from "../components/save_view_dialog";
 import { formatRange } from "../utils/format";
 
-const WIDGETS = ["kpis", "trend", "breakdown", "top", "receivables", "attention", "activity"];
+// Widgets shown on each page, in loading order. "kpis_sales" is the KPI row of
+// the Sales Analytics page (same server widget, a fixed sales-oriented set).
+const PAGE_WIDGETS = {
+    overview: ["kpis", "trend", "attention", "targets", "breakdown", "top", "receivables", "activity"],
+    sales: ["kpis_sales", "funnel", "quotations", "salespeople", "targets"],
+};
+const WIDGETS = [...new Set(Object.values(PAGE_WIDGETS).flat())];
+const SALES_KPIS = ["confirmed_sales", "order_count", "avg_order_value", "conversion_rate", "open_quotations", "active_customers"];
 const DIMENSION_FILTERS = [
     { key: "team_ids", model: "crm.team", label: _t("Sales Team") },
     { key: "user_ids", model: "res.users", label: _t("Salesperson"), domain: [["share", "=", false]] },
@@ -46,6 +55,10 @@ export class BusinessPulseDashboard extends Component {
         Receivables,
         Attention,
         ActivityFeed,
+        Funnel,
+        QuotationAging,
+        SalespeopleTable,
+        TargetsPanel,
     };
     static props = ["*"];
 
@@ -75,7 +88,10 @@ export class BusinessPulseDashboard extends Component {
                 top: { kind: "products" },
             },
             kpiKeys: [],
+            page: "overview",
+            views: [],
             showFilters: false,
+            activeView: null,
             widgets: Object.fromEntries(WIDGETS.map((w) => [w, { status: "loading", data: null, loading: true }])),
         });
 
@@ -85,14 +101,19 @@ export class BusinessPulseDashboard extends Component {
                     filters: JSON.parse(JSON.stringify(this.state.filters)),
                     options: JSON.parse(JSON.stringify(this.state.options)),
                     showFilters: this.state.showFilters,
+                    page: this.state.page,
                 },
             }),
         });
 
         onWillStart(async () => {
             try {
-                const boot = await this.orm.call("business.pulse.dashboard", "get_bootstrap", []);
+                const [boot, views] = await Promise.all([
+                    this.orm.call("business.pulse.dashboard", "get_bootstrap", []),
+                    this.orm.call("business.pulse.view", "list_views", []).catch(() => []),
+                ]);
                 this.state.boot = boot;
+                this.state.views = views;
                 this.initFilters(boot);
                 this.loadAll();
             } catch {
@@ -108,6 +129,8 @@ export class BusinessPulseDashboard extends Component {
         const restored = this.props.state?.businessPulse;
         const prefs = boot.preferences || {};
         this.state.kpiKeys = prefs.kpi_keys?.length ? prefs.kpi_keys : boot.default_kpis;
+        const page = restored?.page || this.props.action?.params?.page;
+        this.state.page = PAGE_WIDGETS[page] ? page : "overview";
         if (restored) {
             Object.assign(this.state.filters, restored.filters);
             Object.assign(this.state.options, restored.options);
@@ -150,6 +173,10 @@ export class BusinessPulseDashboard extends Component {
         return this.boot?.presets.find((p) => p.key === key);
     }
 
+    get activeViewName() {
+        return this.state.views.find((v) => v.id === this.state.activeView)?.name || _t("Unsaved");
+    }
+
     get presetLabel() {
         return this.presetEntry(this.state.filters.preset)?.label || "";
     }
@@ -159,7 +186,8 @@ export class BusinessPulseDashboard extends Component {
     }
 
     get period() {
-        for (const name of ["kpis", "trend", "breakdown"]) {
+        // Only trust sections of the current page: the other page may hold stale data.
+        for (const name of this.pageWidgets) {
             const period = this.state.widgets[name].data?.period;
             if (period) {
                 return period;
@@ -184,7 +212,7 @@ export class BusinessPulseDashboard extends Component {
     }
 
     get currencyId() {
-        for (const name of WIDGETS) {
+        for (const name of this.pageWidgets) {
             const data = this.state.widgets[name].data;
             if (data?.currency_id) {
                 return data.currency_id;
@@ -212,10 +240,19 @@ export class BusinessPulseDashboard extends Component {
         return chips;
     }
 
+    get kpiSlotName() {
+        return this.state.page === "sales" ? "kpis_sales" : "kpis";
+    }
+
+    get kpiSlot() {
+        return this.state.widgets[this.kpiSlotName];
+    }
+
     get kpiCards() {
-        const data = this.state.widgets.kpis.data;
+        const data = this.kpiSlot.data;
         const byKey = Object.fromEntries((data?.cards || []).map((c) => [c.key, c]));
-        return this.state.kpiKeys
+        const keys = this.state.page === "sales" ? SALES_KPIS : this.state.kpiKeys;
+        return keys
             .filter((key) => this.catalog[key])
             .map((key) => ({ key, meta: this.catalog[key], card: byKey[key] || { key, status: "loading" } }));
     }
@@ -250,11 +287,20 @@ export class BusinessPulseDashboard extends Component {
     }
 
     get exportItems() {
+        if (this.state.page === "sales") {
+            return [
+                { key: "kpis_sales", label: _t("KPI summary") },
+                { key: "salespeople", label: _t("Salesperson performance") },
+                { key: "quotations", label: _t("Open quotations by age") },
+                { key: "targets", label: _t("Targets") },
+            ];
+        }
         const items = [
             { key: "kpis", label: _t("KPI summary") },
             { key: "trend", label: _t("Trend data") },
             { key: "breakdown", label: _t("Sales breakdown") },
             { key: "top", label: _t("Top performers") },
+            { key: "targets", label: _t("Targets") },
         ];
         if (this.permissions.finance) {
             items.push({ key: "receivables", label: _t("Receivables aging") });
@@ -326,7 +372,14 @@ export class BusinessPulseDashboard extends Component {
         if (widget === "kpis") {
             return { keys: this.state.kpiKeys };
         }
+        if (widget === "kpis_sales") {
+            return { keys: SALES_KPIS };
+        }
         return this.state.options[widget] || {};
+    }
+
+    serverWidget(widget) {
+        return widget === "kpis_sales" ? "kpis" : widget;
     }
 
     isWidgetVisible(widget) {
@@ -334,6 +387,34 @@ export class BusinessPulseDashboard extends Component {
             return !!this.permissions.finance;
         }
         return true;
+    }
+
+    get pageWidgets() {
+        return PAGE_WIDGETS[this.state.page];
+    }
+
+    get pages() {
+        return [
+            { key: "overview", label: _t("Overview") },
+            { key: "sales", label: _t("Sales Analytics") },
+        ];
+    }
+
+    get showTargets() {
+        const slot = this.state.widgets.targets;
+        if (!slot.data || slot.status !== "ok") {
+            return true;
+        }
+        // Hide an empty targets panel from people who cannot create targets.
+        return !slot.data.empty || slot.data.can_manage;
+    }
+
+    setPage(page) {
+        if (this.state.page === page || !PAGE_WIDGETS[page]) {
+            return;
+        }
+        this.state.page = page;
+        this.loadAll();
     }
 
     async loadWidget(widget) {
@@ -348,7 +429,7 @@ export class BusinessPulseDashboard extends Component {
         }
         try {
             const data = await this.orm.silent.call("business.pulse.dashboard", "get_widget", [
-                widget,
+                this.serverWidget(widget),
                 this.serverFilters(widget),
                 this.widgetOptions(widget),
             ]);
@@ -371,7 +452,7 @@ export class BusinessPulseDashboard extends Component {
     }
 
     loadAll() {
-        for (const widget of WIDGETS) {
+        for (const widget of this.pageWidgets) {
             this.loadWidget(widget);
         }
     }
@@ -380,6 +461,7 @@ export class BusinessPulseDashboard extends Component {
     // Filter handlers
     // ------------------------------------------------------------------
     selectPreset(key) {
+        this.state.activeView = null;
         if (key === "custom") {
             this.state.filters.preset = "custom";
             this.state.filters.date_from = this.state.draft.date_from || this.period?.date_from || "";
@@ -394,6 +476,7 @@ export class BusinessPulseDashboard extends Component {
     }
 
     applyCustomRange() {
+        this.state.activeView = null;
         const { date_from, date_to } = this.state.draft;
         if (!date_from || !date_to) {
             this.notification.add(_t("Select both a start and an end date."), { type: "warning" });
@@ -408,6 +491,7 @@ export class BusinessPulseDashboard extends Component {
     }
 
     selectComparison(key) {
+        this.state.activeView = null;
         this.state.filters.comparison = key;
         if (key === "custom") {
             const p = this.period;
@@ -430,16 +514,19 @@ export class BusinessPulseDashboard extends Component {
     }
 
     updateDimension(key, ids) {
+        this.state.activeView = null;
         this.state.filters[key] = ids;
         this.loadAll();
     }
 
     clearDimension(key) {
+        this.state.activeView = null;
         this.state.filters[key] = [];
         this.loadAll();
     }
 
     clearAll() {
+        this.state.activeView = null;
         Object.assign(this.state.filters, emptyDimensions());
         this.loadAll();
     }
@@ -523,12 +610,12 @@ export class BusinessPulseDashboard extends Component {
         this.loadAll();
     }
 
-    async exportCsv(widget) {
+    async exportData(widget, format = "csv") {
         try {
             await download({
-                url: "/business_pulse/export/csv",
+                url: `/business_pulse/export/${format}`,
                 data: {
-                    widget,
+                    widget: this.serverWidget(widget),
                     filters: JSON.stringify({
                         ...this.serverFilters(widget),
                         context: { allowed_company_ids: user.context.allowed_company_ids },
@@ -539,6 +626,70 @@ export class BusinessPulseDashboard extends Component {
         } catch {
             this.notification.add(_t("The export failed. Please try again."), { type: "danger" });
         }
+    }
+
+    printPage() {
+        window.print();
+    }
+
+    // ------------------------------------------------------------------
+    // Saved views
+    // ------------------------------------------------------------------
+    openSaveView() {
+        this.dialog.add(SaveViewDialog, {
+            views: this.state.views,
+            onSave: async (name) => {
+                const f = this.state.filters;
+                const filters = { ...this.serverFilters(), date_from: f.date_from, date_to: f.date_to };
+                const options = {
+                    page: this.state.page,
+                    trend: { ...this.state.options.trend },
+                    breakdown: { ...this.state.options.breakdown },
+                    top: { ...this.state.options.top },
+                };
+                this.state.views = await this.orm.call("business.pulse.view", "save_view", [name, filters, options]);
+                this.state.activeView = this.state.views.find((v) => v.name === name)?.id || null;
+                this.notification.add(_t("View \"%(name)s\" saved.", { name }), { type: "success" });
+            },
+        });
+    }
+
+    applyView(view) {
+        Object.assign(this.state.filters, {
+            preset: "this_month",
+            date_from: "",
+            date_to: "",
+            comparison: "previous_period",
+            compare_from: "",
+            compare_to: "",
+            ...emptyDimensions(),
+            ...view.filters,
+        });
+        for (const key of ["trend", "breakdown", "top"]) {
+            if (view.options?.[key]) {
+                Object.assign(this.state.options[key], view.options[key]);
+            }
+        }
+        if (!this.permissions.finance && this.state.options.trend.metric === "revenue") {
+            this.state.options.trend.metric = "sales";
+        }
+        if (PAGE_WIDGETS[view.options?.page]) {
+            this.state.page = view.options.page;
+        }
+        this.state.activeView = view.id;
+        this.syncDraft();
+        this.loadAll();
+    }
+
+    async deleteView(view) {
+        this.state.views = await this.orm.call("business.pulse.view", "delete_view", [view.id]);
+        if (this.state.activeView === view.id) {
+            this.state.activeView = null;
+        }
+    }
+
+    manageTargets() {
+        this.actionService.doAction("business_pulse.action_business_pulse_targets");
     }
 
     openCustomize() {

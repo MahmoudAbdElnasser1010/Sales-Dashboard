@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="business_pulse.SaveViewDialog">
+        <Dialog title.translate="Save current view" size="'sm'">
+            <label class="form-label" for="bp_view_name">Name</label>
+            <input id="bp_view_name" t-ref="input" class="form-control" maxlength="80" t-model="state.name"
+                   t-on-keydown="onKeydown" placeholder="e.g. My team, last 30 days"/>
+            <p class="form-text mb-0">Saves the period, comparison, filters and page. Figures are always recalculated with your access rights.</p>
+            <p t-if="willReplace" class="form-text text-warning mb-0"><i class="fa fa-exclamation-triangle me-1" aria-hidden="true"/>A view with this name exists and will be replaced.</p>
+            <p t-if="state.error" class="text-danger small mt-2 mb-0" role="alert" t-esc="state.error"/>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-on-click="save" t-att-disabled="state.saving or !state.name.trim()">Save</button>
+                <button class="btn btn-secondary" t-on-click="() => props.close()">Cancel</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

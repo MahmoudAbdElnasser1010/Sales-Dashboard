@@ -17,7 +17,7 @@
                     <t t-slot="actions"/>
                     <button t-if="props.onExport and status === 'ok'" type="button"
                             class="btn btn-sm o_bp_icon_btn" t-on-click="() => props.onExport()"
-                            title="Export CSV" aria-label="Export this section as CSV">
+                            title="Export to Excel" aria-label="Export this section to Excel">
                         <i class="fa fa-download" aria-hidden="true"/>
                     </button>
                 </div>

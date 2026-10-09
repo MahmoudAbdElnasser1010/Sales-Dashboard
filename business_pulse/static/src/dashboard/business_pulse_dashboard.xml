@@ -14,9 +14,16 @@
                     <div class="o_bp_title_block">
                         <h1 class="o_bp_title">Business Pulse</h1>
                         <p class="o_bp_subtitle">
-                            Executive overview<span class="o_bp_dot" aria-hidden="true">·</span><t t-esc="boot.company_name"/>
+                            <t t-if="state.page === 'sales'">Sales analytics</t><t t-else="">Executive overview</t><span class="o_bp_dot" aria-hidden="true">·</span><t t-esc="boot.company_name"/>
                         </p>
                     </div>
+                    <nav class="o_bp_pages" aria-label="Business Pulse pages">
+                        <t t-foreach="pages" t-as="pg" t-key="pg.key">
+                            <button type="button" class="o_bp_page_tab" t-att-class="{ 'active': state.page === pg.key }"
+                                    t-att-aria-current="state.page === pg.key ? 'page' : false"
+                                    t-on-click="() => this.setPage(pg.key)" t-esc="pg.label"/>
+                        </t>
+                    </nav>
                     <div class="o_bp_header_actions">
                         <button type="button" class="btn btn-light o_bp_icon_btn" t-on-click="refresh" title="Refresh" aria-label="Refresh all sections">
                             <i class="fa fa-refresh" aria-hidden="true"/>
@@ -26,12 +33,23 @@
                                 <i class="fa fa-download me-1" aria-hidden="true"/><span class="d-none d-sm-inline">Export</span>
                             </button>
                             <t t-set-slot="content">
-                                <div class="dropdown-header">CSV export (current filters)</div>
-                                <t t-foreach="exportItems" t-as="item" t-key="item.key">
-                                    <DropdownItem onSelected="() => this.exportCsv(item.key)">
-                                        <t t-esc="item.label"/>
+                                <div class="dropdown-header">Excel (.xlsx) · current filters</div>
+                                <t t-foreach="exportItems" t-as="item" t-key="'x' + item.key">
+                                    <DropdownItem onSelected="() => this.exportData(item.key, 'xlsx')">
+                                        <i class="fa fa-file-excel-o me-2 text-muted" aria-hidden="true"/><t t-esc="item.label"/>
                                     </DropdownItem>
                                 </t>
+                                <div class="dropdown-divider"/>
+                                <div class="dropdown-header">CSV</div>
+                                <t t-foreach="exportItems" t-as="item" t-key="'c' + item.key">
+                                    <DropdownItem onSelected="() => this.exportData(item.key, 'csv')">
+                                        <i class="fa fa-file-text-o me-2 text-muted" aria-hidden="true"/><t t-esc="item.label"/>
+                                    </DropdownItem>
+                                </t>
+                                <div class="dropdown-divider"/>
+                                <DropdownItem onSelected="() => this.printPage()">
+                                    <i class="fa fa-print me-2 text-muted" aria-hidden="true"/>Print / Save as PDF
+                                </DropdownItem>
                             </t>
                         </Dropdown>
                         <button type="button" class="btn btn-primary" t-on-click="openCustomize">
@@ -48,6 +66,32 @@
                 <!-- Global filters -->
                 <div class="o_bp_toolbar" role="search" aria-label="Dashboard filters">
                     <div class="o_bp_toolbar_row">
+                        <Dropdown>
+                            <button type="button" class="btn o_bp_filter_btn" aria-label="Saved views">
+                                <i class="fa fa-bookmark-o me-2" aria-hidden="true"/>
+                                <span class="o_bp_filter_btn_label">View</span>
+                                <strong t-esc="activeViewName"/>
+                                <i class="fa fa-angle-down ms-2" aria-hidden="true"/>
+                            </button>
+                            <t t-set-slot="content">
+                                <div t-if="!state.views.length" class="dropdown-header">No saved views yet</div>
+                                <t t-foreach="state.views" t-as="view" t-key="view.id">
+                                    <DropdownItem onSelected="() => this.applyView(view)">
+                                        <span class="o_bp_menu_item">
+                                            <span><i t-attf-class="fa fa-check me-2 {{ state.activeView === view.id ? '' : 'invisible' }}" aria-hidden="true"/><t t-esc="view.name"/></span>
+                                            <button type="button" class="o_bp_view_delete" t-on-click.stop="() => this.deleteView(view)"
+                                                    t-att-aria-label="'Delete view ' + view.name" title="Delete">
+                                                <i class="fa fa-trash-o" aria-hidden="true"/>
+                                            </button>
+                                        </span>
+                                    </DropdownItem>
+                                </t>
+                                <div class="dropdown-divider"/>
+                                <DropdownItem onSelected="() => this.openSaveView()">
+                                    <i class="fa fa-floppy-o me-2" aria-hidden="true"/>Save current view…
+                                </DropdownItem>
+                            </t>
+                        </Dropdown>
                         <Dropdown>
                             <button type="button" class="btn o_bp_filter_btn" aria-label="Period">
                                 <i class="fa fa-calendar me-2" aria-hidden="true"/>
@@ -158,26 +202,26 @@
                 <main class="o_bp_content">
                     <!-- KPI cards -->
                     <section class="o_bp_kpis" aria-label="Key performance indicators">
-                        <t t-if="state.widgets.kpis.status === 'forbidden' or state.widgets.kpis.status === 'invalid' or (state.widgets.kpis.status === 'error' and !state.widgets.kpis.data?.cards)">
-                            <WidgetFrame title.translate="Key indicators" widget="state.widgets.kpis" onRetry="() => this.loadWidget('kpis')" className="'o_bp_span_all'"/>
+                        <t t-if="kpiSlot.status === 'forbidden' or kpiSlot.status === 'invalid' or (kpiSlot.status === 'error' and !kpiSlot.data?.cards)">
+                            <WidgetFrame title.translate="Key indicators" widget="kpiSlot" onRetry="() => this.loadWidget(kpiSlotName)" className="'o_bp_span_all'"/>
                         </t>
                         <t t-else="">
                             <t t-foreach="kpiCards" t-as="entry" t-key="entry.key">
                                 <KpiCard card="entry.card" meta="entry.meta" currencyId="currencyId"
-                                         hasComparison="hasComparison" loading="state.widgets.kpis.loading and !!state.widgets.kpis.data"
+                                         hasComparison="hasComparison" loading="kpiSlot.loading and !!kpiSlot.data"
                                          onOpen.bind="openAction"/>
                             </t>
                         </t>
                     </section>
 
-                    <div class="o_bp_grid">
+                    <div t-if="state.page === 'overview'" class="o_bp_grid">
                         <!-- Trend -->
                         <WidgetFrame title.translate="Performance trend" subtitle="trendSubtitle" headingId="'bp_h_trend'"
                                      widget="state.widgets.trend" skeleton="'chart'" className="'o_bp_col_8'"
                                      isEmpty="!!state.widgets.trend.data?.empty and !state.widgets.trend.data?.compare_total"
                                      emptyTitle.translate="No activity in this period"
                                      emptyText.translate="Try a longer period or remove some filters."
-                                     onRetry="() => this.loadWidget('trend')" onExport="() => this.exportCsv('trend')">
+                                     onRetry="() => this.loadWidget('trend')" onExport="() => this.exportData('trend', 'xlsx')">
                             <t t-set-slot="actions">
                                 <div class="btn-group btn-group-sm o_bp_segmented" role="group" aria-label="Metric">
                                     <t t-foreach="trendMetrics" t-as="metric" t-key="metric.key">
@@ -210,12 +254,27 @@
                                        onOpen.bind="openAction"/>
                         </WidgetFrame>
 
+                        <!-- Targets -->
+                        <WidgetFrame t-if="showTargets" title.translate="Targets" subtitle.translate="Progress against goals, measured like the matching KPI"
+                                     headingId="'bp_h_targets_ov'" widget="state.widgets.targets" className="'o_bp_col_12'"
+                                     isEmpty="!!state.widgets.targets.data?.empty"
+                                     emptyTitle.translate="No targets for this period"
+                                     emptyText.translate="Set monthly, quarterly or yearly targets for the company, a sales team or a salesperson."
+                                     onRetry="() => this.loadWidget('targets')" onExport="() => this.exportData('targets', 'xlsx')">
+                            <t t-set-slot="actions">
+                                <button t-if="state.widgets.targets.data?.can_manage" type="button" class="btn btn-sm btn-light" t-on-click="manageTargets">
+                                    <i class="fa fa-bullseye me-1" aria-hidden="true"/>Manage targets
+                                </button>
+                            </t>
+                            <TargetsPanel data="state.widgets.targets.data" onOpen.bind="openAction"/>
+                        </WidgetFrame>
+
                         <!-- Breakdown -->
                         <WidgetFrame title.translate="Sales breakdown" subtitle="breakdownSubtitle" headingId="'bp_h_breakdown'"
                                      widget="state.widgets.breakdown" skeleton="'bars'" className="'o_bp_col_6'"
                                      isEmpty="!!state.widgets.breakdown.data?.empty"
                                      emptyTitle.translate="No confirmed sales in this period"
-                                     onRetry="() => this.loadWidget('breakdown')" onExport="() => this.exportCsv('breakdown')">
+                                     onRetry="() => this.loadWidget('breakdown')" onExport="() => this.exportData('breakdown', 'xlsx')">
                             <t t-set-slot="actions">
                                 <label class="visually-hidden" for="bp_dimension">Break down by</label>
                                 <select id="bp_dimension" class="form-select form-select-sm o_bp_select" t-on-change="setDimension">
@@ -233,7 +292,7 @@
                                      headingId="'bp_h_top'" widget="state.widgets.top" className="'o_bp_col_6'"
                                      isEmpty="!!state.widgets.top.data?.empty"
                                      emptyTitle.translate="No confirmed sales in this period"
-                                     onRetry="() => this.loadWidget('top')" onExport="() => this.exportCsv('top')">
+                                     onRetry="() => this.loadWidget('top')" onExport="() => this.exportData('top', 'xlsx')">
                             <t t-set-slot="actions">
                                 <div class="o_bp_tabs" role="tablist" aria-label="Ranking">
                                     <t t-foreach="topKinds" t-as="kind" t-key="kind.key">
@@ -257,7 +316,7 @@
                                      emptyTitle.translate="No outstanding receivables"
                                      emptyText.translate="Every posted customer invoice is paid."
                                      ignoredFilters="state.widgets.receivables.data?.ignored_filters or []"
-                                     onRetry="() => this.loadWidget('receivables')" onExport="() => this.exportCsv('receivables')">
+                                     onRetry="() => this.loadWidget('receivables')" onExport="() => this.exportData('receivables', 'xlsx')">
                             <Receivables data="state.widgets.receivables.data" currencyId="state.widgets.receivables.data.currency_id"
                                          onOpen.bind="openAction"/>
                         </WidgetFrame>
@@ -270,6 +329,46 @@
                                      emptyTitle.translate="No recent activity"
                                      onRetry="() => this.loadWidget('activity')">
                             <ActivityFeed data="state.widgets.activity.data" onOpenRecord.bind="openRecord"/>
+                        </WidgetFrame>
+                    </div>
+
+                    <div t-if="state.page === 'sales'" class="o_bp_grid">
+                        <WidgetFrame title.translate="Quotation funnel" subtitle.translate="Quotations created in the period, by status today"
+                                     headingId="'bp_h_funnel'" widget="state.widgets.funnel" skeleton="'bars'" className="'o_bp_col_6'"
+                                     isEmpty="!!state.widgets.funnel.data?.empty"
+                                     emptyTitle.translate="No quotations created in this period"
+                                     onRetry="() => this.loadWidget('funnel')">
+                            <Funnel data="state.widgets.funnel.data" currencyId="state.widgets.funnel.data.currency_id" onOpen.bind="openAction"/>
+                        </WidgetFrame>
+                        <WidgetFrame title.translate="Open quotations" subtitle.translate="Pipeline today: age, expiry and largest deals"
+                                     headingId="'bp_h_quotes'" widget="state.widgets.quotations" skeleton="'bars'" className="'o_bp_col_6'"
+                                     isEmpty="!!state.widgets.quotations.data?.empty"
+                                     emptyTitle.translate="No open quotations"
+                                     emptyText.translate="Every quotation has been confirmed or cancelled."
+                                     onRetry="() => this.loadWidget('quotations')" onExport="() => this.exportData('quotations', 'xlsx')">
+                            <QuotationAging data="state.widgets.quotations.data" currencyId="state.widgets.quotations.data.currency_id"
+                                            onOpen.bind="openAction" onOpenRecord.bind="openRecord"/>
+                        </WidgetFrame>
+                        <WidgetFrame title.translate="Salesperson performance" subtitle.translate="Confirmed sales, conversion, pipeline and target progress"
+                                     headingId="'bp_h_people'" widget="state.widgets.salespeople" className="'o_bp_col_12'"
+                                     isEmpty="!!state.widgets.salespeople.data?.empty"
+                                     emptyTitle.translate="No confirmed sales in this period"
+                                     onRetry="() => this.loadWidget('salespeople')" onExport="() => this.exportData('salespeople', 'xlsx')">
+                            <SalespeopleTable data="state.widgets.salespeople.data" currencyId="state.widgets.salespeople.data.currency_id"
+                                              onOpen.bind="openAction"/>
+                        </WidgetFrame>
+                        <WidgetFrame t-if="showTargets" title.translate="Targets" subtitle.translate="Progress against goals, measured like the matching KPI"
+                                     headingId="'bp_h_targets_sales'" widget="state.widgets.targets" className="'o_bp_col_12'"
+                                     isEmpty="!!state.widgets.targets.data?.empty"
+                                     emptyTitle.translate="No targets for this period"
+                                     emptyText.translate="Set monthly, quarterly or yearly targets for the company, a sales team or a salesperson."
+                                     onRetry="() => this.loadWidget('targets')" onExport="() => this.exportData('targets', 'xlsx')">
+                            <t t-set-slot="actions">
+                                <button t-if="state.widgets.targets.data?.can_manage" type="button" class="btn btn-sm btn-light" t-on-click="manageTargets">
+                                    <i class="fa fa-bullseye me-1" aria-hidden="true"/>Manage targets
+                                </button>
+                            </t>
+                            <TargetsPanel data="state.widgets.targets.data" onOpen.bind="openAction"/>
                         </WidgetFrame>
                     </div>
                 </main>

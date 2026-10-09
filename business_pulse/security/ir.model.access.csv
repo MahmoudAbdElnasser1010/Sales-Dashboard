@@ -1,2 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_business_pulse_preference_user,business.pulse.preference user,model_business_pulse_preference,group_business_pulse_user,1,1,1,1
+access_business_pulse_target_user,business.pulse.target user,model_business_pulse_target,group_business_pulse_user,1,0,0,0
+access_business_pulse_target_sale_manager,business.pulse.target sales manager,model_business_pulse_target,sales_team.group_sale_manager,1,1,1,1
+access_business_pulse_target_system,business.pulse.target system,model_business_pulse_target,base.group_system,1,1,1,1
+access_business_pulse_view_user,business.pulse.view user,model_business_pulse_view,group_business_pulse_user,1,1,1,1

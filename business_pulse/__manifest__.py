@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Business Pulse - Executive BI Dashboard',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.1.0',
     'category': 'Productivity/Dashboard',
-    'summary': 'Executive dashboard for Odoo: sales KPIs, invoiced revenue, receivables aging, '
-               'period comparisons, drill-down and CSV export in one workspace',
+    'summary': 'Executive and sales dashboard for Odoo: KPIs, quotation funnel, salesperson targets, '
+               'receivables aging, comparisons, drill-down and Excel/PDF export',
     'description': """
 Business Pulse
 ==============
@@ -16,8 +16,11 @@ receivables and customer insights into a single, fast and secure workspace.
 * Sales trend, breakdowns and top performers
 * Receivables and overdue aging (accounting users only)
 * Deterministic "needs attention" alerts
+* Sales Analytics: quotation funnel, open-pipeline aging, salesperson performance
+* Targets per company, team or salesperson with on-track status
+* Saved views (named filter sets per user)
 * One-click drill-down to the exact underlying records
-* CSV export that follows the active filters and access rights
+* Excel, CSV and print/PDF export that follow the active filters and access rights
 """,
     'author': 'Mahmoud Abdelnasser',
     'license': 'OPL-1',
@@ -29,6 +32,7 @@ receivables and customer insights into a single, fast and secure workspace.
         'security/business_pulse_security.xml',
         'security/ir.model.access.csv',
         'views/res_config_settings_views.xml',
+        'views/business_pulse_target_views.xml',
         'views/business_pulse_menus.xml',
     ],
     'assets': {

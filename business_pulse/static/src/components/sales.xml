@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="business_pulse.Funnel">
+        <div class="o_bp_funnel">
+            <div class="o_bp_funnel_head">
+                <div class="o_bp_stat_block">
+                    <span class="o_bp_stat_label">Conversion</span>
+                    <span class="o_bp_stat_value" t-esc="pct(props.data.rate)"/>
+                    <span t-if="delta" t-attf-class="o_bp_delta o_bp_tone_{{ delta.tone }}">
+                        <i t-attf-class="fa {{ delta.direction === 'up' ? 'fa-arrow-up' : delta.direction === 'down' ? 'fa-arrow-down' : 'fa-minus' }}" aria-hidden="true"/>
+                        <span class="visually-hidden" t-esc="delta.directionText + ' '"/>
+                        <t t-esc="delta.label"/>
+                    </span>
+                </div>
+                <div class="o_bp_stat_block">
+                    <span class="o_bp_stat_label">Avg. days to confirm</span>
+                    <span class="o_bp_stat_value" t-esc="days"/>
+                </div>
+                <div class="o_bp_stat_block">
+                    <span class="o_bp_stat_label">Open, already sent</span>
+                    <span class="o_bp_stat_value" t-esc="count(props.data.sent_open)"/>
+                </div>
+            </div>
+            <ol class="o_bp_funnel_stages">
+                <li t-foreach="props.data.stages" t-as="stage" t-key="stage.key">
+                    <button type="button" t-attf-class="o_bp_funnel_row o_bp_stage_{{ stage.key }}"
+                            t-on-click="() => this.open(stage.action)" t-att-title="stage.help"
+                            t-att-aria-label="stage.label + ': ' + stage.count + ', ' + exact(stage.value) + ', ' + pct(stage.share) + '. Open'">
+                        <span class="o_bp_funnel_label" t-esc="stage.label"/>
+                        <span class="o_bp_funnel_track" aria-hidden="true">
+                            <span class="o_bp_funnel_fill" t-att-style="'width:' + width(stage)"/>
+                        </span>
+                        <span class="o_bp_funnel_count o_bp_num" t-esc="count(stage.count)"/>
+                        <span class="o_bp_funnel_value o_bp_num" t-att-title="exact(stage.value)" t-esc="money(stage.value)"/>
+                        <span class="o_bp_funnel_share o_bp_num" t-esc="pct(stage.share)"/>
+                    </button>
+                </li>
+            </ol>
+            <p class="o_bp_footnote">Cohort: quotations created in the selected period, by their status today.</p>
+        </div>
+    </t>
+
+    <t t-name="business_pulse.QuotationAging">
+        <div class="o_bp_quotes">
+            <div class="o_bp_recv_stats o_bp_three">
+                <button type="button" class="o_bp_stat" t-on-click="() => this.open(props.data.action)">
+                    <span class="o_bp_stat_label">Open pipeline</span>
+                    <span class="o_bp_stat_value" t-att-title="exact(props.data.total)" t-esc="money(props.data.total)"/>
+                    <span class="o_bp_stat_sub"><t t-esc="count(props.data.count)"/> quotations · as of today</span>
+                </button>
+                <button type="button" class="o_bp_stat" t-on-click="() => this.open(props.data.expiring.action)" t-att-disabled="!props.data.expiring.count">
+                    <span class="o_bp_stat_label"><i class="fa fa-hourglass-end me-1" aria-hidden="true"/>Expiring soon</span>
+                    <span class="o_bp_stat_value" t-esc="count(props.data.expiring.count)"/>
+                    <span class="o_bp_stat_sub">within <t t-esc="props.data.expiring.days"/> days · <t t-esc="money(props.data.expiring.value)"/></span>
+                </button>
+                <button type="button" class="o_bp_stat" t-on-click="() => this.open(props.data.expired.action)" t-att-disabled="!props.data.expired.count">
+                    <span class="o_bp_stat_label"><i class="fa fa-calendar-times-o me-1" aria-hidden="true"/>Expired, still open</span>
+                    <span class="o_bp_stat_value" t-att-class="{ 'text-danger': props.data.expired.count }" t-esc="count(props.data.expired.count)"/>
+                    <span class="o_bp_stat_sub" t-esc="money(props.data.expired.value)"/>
+                </button>
+            </div>
+            <h3 class="o_bp_subheading">Age of open quotations</h3>
+            <ul class="o_bp_age_list">
+                <li t-foreach="props.data.buckets" t-as="bucket" t-key="bucket.key">
+                    <button type="button" class="o_bp_bar_row o_bp_age_row" t-on-click="() => this.open(bucket.action)"
+                            t-att-disabled="!bucket.count"
+                            t-att-aria-label="bucket.label + ': ' + bucket.count + ' quotations, ' + exact(bucket.value)">
+                        <span class="o_bp_bar_label" t-esc="bucket.label"/>
+                        <span class="o_bp_bar_track" aria-hidden="true">
+                            <span t-attf-class="o_bp_bar_fill o_bp_qage_{{ bucket.key }}" t-att-style="'width:' + width(bucket)"/>
+                        </span>
+                        <span class="o_bp_bar_value o_bp_num" t-esc="money(bucket.value)"/>
+                        <span class="o_bp_bar_share o_bp_num"><t t-esc="bucket.count"/></span>
+                    </button>
+                </li>
+            </ul>
+            <t t-if="props.data.top.length">
+                <h3 class="o_bp_subheading">Highest-value open quotations</h3>
+                <div class="o_bp_table_wrap">
+                    <table class="table table-sm table-hover o_bp_table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Quotation</th>
+                                <th scope="col" class="d-none d-md-table-cell">Salesperson</th>
+                                <th scope="col" class="text-end">Value</th>
+                                <th scope="col" class="text-end">Age</th>
+                                <th scope="col" class="text-end d-none d-sm-table-cell">Valid until</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="props.data.top" t-as="row" t-key="row.id" class="o_bp_row_link"
+                                t-on-click="() => props.onOpenRecord({ res_model: 'sale.order', res_id: row.id })">
+                                <td class="o_bp_name_cell">
+                                    <button type="button" class="o_bp_link_btn" t-esc="row.name"
+                                            t-on-click.stop="() => props.onOpenRecord({ res_model: 'sale.order', res_id: row.id })"/>
+                                    <small class="text-muted d-block text-truncate" t-esc="row.partner"/>
+                                </td>
+                                <td class="d-none d-md-table-cell text-truncate" style="max-width: 10rem" t-esc="row.user"/>
+                                <td class="text-end o_bp_num" t-att-title="exact(row.amount, row.currency_id)" t-esc="money(row.amount, row.currency_id)"/>
+                                <td class="text-end o_bp_num" t-esc="ageLabel(row)"/>
+                                <td class="text-end o_bp_num d-none d-sm-table-cell">
+                                    <span t-if="row.expired" class="o_bp_delta o_bp_delta_sm o_bp_tone_bad">
+                                        <i class="fa fa-calendar-times-o" aria-hidden="true"/> Expired
+                                    </span>
+                                    <t t-else="" t-esc="validity(row)"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="business_pulse.TargetProgress">
+        <div class="o_bp_target_progress" t-att-class="{ 'o_bp_compact': props.compact }">
+            <div class="o_bp_progress" role="img" t-att-aria-label="summary">
+                <span t-attf-class="o_bp_progress_fill o_bp_status_{{ status.tone }}" t-att-style="'width:' + fill"/>
+                <span t-if="props.target.status !== 'upcoming' and props.target.elapsed &lt; 1" class="o_bp_progress_pace"
+                      t-att-style="'inset-inline-start:' + pace" t-att-title="'Expected by now: ' + exact(props.target.expected)"/>
+            </div>
+            <div class="o_bp_progress_meta">
+                <span t-attf-class="o_bp_status_badge o_bp_status_{{ status.tone }}">
+                    <i t-attf-class="fa {{ status.icon }}" aria-hidden="true"/> <t t-esc="status.label"/>
+                </span>
+                <strong class="o_bp_num" t-esc="completion"/>
+            </div>
+            <div t-if="!props.compact" class="o_bp_progress_amounts o_bp_num">
+                <span t-att-title="exact(props.target.actual)" t-esc="fmt(props.target.actual)"/>
+                <span class="text-muted"> of <t t-esc="fmt(props.target.amount)"/></span>
+                <span t-if="props.target.remaining > 0" class="text-muted"> · <t t-esc="fmt(props.target.remaining)"/> to go</span>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="business_pulse.TargetsPanel">
+        <ul class="o_bp_targets">
+            <li t-foreach="props.data.items" t-as="target" t-key="target.id">
+                <button type="button" class="o_bp_target" t-on-click="() => props.onOpen(target.action)">
+                    <span class="o_bp_target_head">
+                        <span class="o_bp_target_name" t-esc="target.name"/>
+                        <span class="o_bp_target_scope"><t t-esc="target.scope_label"/> · <t t-esc="range(target)"/></span>
+                    </span>
+                    <TargetProgress target="target"/>
+                </button>
+            </li>
+        </ul>
+        <p class="o_bp_footnote"><span class="o_bp_marker_legend" aria-hidden="true"/> Expected progress at today's date (pro rata)</p>
+    </t>
+
+    <t t-name="business_pulse.SalespeopleTable">
+        <div class="o_bp_table_wrap">
+            <table class="table table-sm table-hover o_bp_table o_bp_people">
+                <thead>
+                    <tr>
+                        <t t-foreach="columns" t-as="col" t-key="col.key">
+                            <th scope="col" t-att-aria-sort="ariaSort(col.key)"
+                                t-attf-class="{{ col.align === 'start' ? '' : 'text-end' }} {{ col.hideSm ? 'd-none d-sm-table-cell' : '' }} {{ col.hideMd ? 'd-none d-lg-table-cell' : '' }}">
+                                <button type="button" class="o_bp_sort_btn" t-on-click="() => this.setSort(col.key)">
+                                    <t t-esc="col.label"/>
+                                    <i t-attf-class="fa ms-1 {{ sort.key === col.key ? (sort.desc ? 'fa-sort-desc' : 'fa-sort-asc') : 'fa-sort o_bp_sort_idle' }}" aria-hidden="true"/>
+                                </button>
+                            </th>
+                        </t>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="rows" t-as="item" t-key="item.id or 'none'" class="o_bp_row_link" t-on-click="() => this.open(item.action)">
+                        <td class="o_bp_name_cell">
+                            <button type="button" class="o_bp_link_btn" t-on-click.stop="() => this.open(item.action)" t-esc="item.name"/>
+                            <small class="text-muted"><t t-esc="pct(item.share)"/> of sales</small>
+                        </td>
+                        <td class="text-end o_bp_num" t-att-title="exact(item.value)" t-esc="money(item.value)"/>
+                        <td class="text-end d-none d-sm-table-cell"><t t-call="business_pulse.DeltaChip"><t t-set="d" t-value="delta(item)"/></t></td>
+                        <td class="text-end o_bp_num d-none d-sm-table-cell" t-esc="count(item.orders)"/>
+                        <td class="text-end o_bp_num d-none d-lg-table-cell" t-esc="money(item.aov)"/>
+                        <td class="text-end o_bp_num d-none d-lg-table-cell">
+                            <t t-esc="pct(item.conversion)"/>
+                            <small class="text-muted d-block"><t t-esc="item.quotations"/> quotes</small>
+                        </td>
+                        <td class="text-end o_bp_num d-none d-lg-table-cell" t-esc="money(item.pipeline)"/>
+                        <td class="o_bp_target_cell">
+                            <TargetProgress t-if="item.target" target="item.target" compact="true"/>
+                            <span t-else="" class="text-muted small">No target</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </t>
+</templates>
