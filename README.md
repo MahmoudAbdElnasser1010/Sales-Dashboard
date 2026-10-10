@@ -4,10 +4,24 @@ Executive BI dashboard for **Odoo 18.0**: sales KPIs, invoiced revenue, receivab
 
 ![Business Pulse](business_pulse/static/description/screenshot_overview.png)
 
+## Run it (one command)
+
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) and start it.
+2. In this folder run:
+   ```bash
+   docker compose up
+   ```
+3. Wait until the log shows `Modules loaded` (a few minutes the first time).
+4. Open <http://localhost:8069> and log in with **admin** / **admin**.
+5. Click the **Business Pulse** app in the main menu.
+
+Stop with `Ctrl+C`. To start from a clean database: `docker compose down -v`.
+
 ## Repository layout (Odoo Apps Store)
 
 ```
 business_pulse/        ← the app (one folder per app at the repository root)
+docker-compose.yml     ← local demo environment (not part of the app)
 README.md              ← this file
 ```
 

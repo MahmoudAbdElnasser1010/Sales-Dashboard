@@ -1,0 +1,32 @@
+# Run Business Pulse locally:  docker compose up
+# Then open http://localhost:8069  and log in with  admin / admin
+# (first start takes a few minutes while Odoo creates the demo database)
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+      POSTGRES_DB: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  odoo:
+    image: odoo:18.0
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: odoo
+    volumes:
+      - ./:/mnt/extra-addons:ro
+      - odoo-data:/var/lib/odoo
+    # Creates the "business_pulse" database with demo data and installs the module.
+    command: ["odoo", "-d", "business_pulse", "-i", "sale_management,business_pulse", "--db-filter=^business_pulse$$"]
+
+volumes:
+  db-data:
+  odoo-data:
